@@ -14,7 +14,9 @@ Identity data:&nbsp;
 From location:&nbsp;
 <?php print $Location; ?>
 <?php 
-if ($Identity == "007") {
+if ($Location == "admin") {
+	echo "<body style='background-color:blue'>";	
+} elseif ($Identity == "007") {
 	echo "<body style='background-color:green'>";
 } else {
 	echo "<body style='background-color:red'>";
