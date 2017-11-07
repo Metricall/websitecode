@@ -15,11 +15,24 @@ From location:&nbsp;
 <?php print $Location; ?>
 <?php 
 if ($Location == "admin") {
-	echo "<body style='background-color:blue'>";	
+	echo "<body style='background-color:blue'>";
 } elseif ($Identity == "007") {
 	echo "<body style='background-color:green'>";
 } else {
 	echo "<body style='background-color:red'>";
+}
+?>
+<?php 
+if ($Location == "admin") {
+	//save $Identity to buffer for account creation;
+	echo "<body style='background-color:blue'>";
+	print "Print stored for Account Creation";
+} elseif (/* checkin($Identity, $Location) */) {
+	echo "<body style='background-color:green'>";
+	print "You are marked as attended.";
+} else {
+	echo "<body style='background-color:red'>";
+	print "Attendance checkin failed.";
 }
 ?>
 <center>
