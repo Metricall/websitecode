@@ -15,11 +15,13 @@ function checkin($id, $loc) {
 	$SessionList = explode(',', $SessionString);
 	
 	//check date and times to see if it is current session
+	date_default_timezone_set("America/Los_Angeles");
 	foreach ($SessionList as $ThisSession)
 	{
 		if (getSessionDate($ThisSession) == date("Y-m-d"))
 		{
-			if ( date("h:i:sa") >= getSessionStart($ThisSession) AND date("h:i:sa") <= getSessionEnd($ThisSession)
+			//assuming we're using 24h format in Pacific Time Zone
+			if ( date("H:i:sa") >= getSessionStart($ThisSession) AND date("H:i:sa") <= getSessionEnd($ThisSession)
 			{
 				$CurrentSession = $ThisSession;
 				break;
