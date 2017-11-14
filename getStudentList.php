@@ -28,11 +28,14 @@ if (isset($_POST["Roster_ID"])){ //If it is the first time, it does nothing
 function getList(){
 
 include 'DatabaseUtilities.php';
-echo "Calling get function";
+echo "Calling get function<br>";
 $the_Roster_Id = $_POST['Roster_ID'];
 
-getStudentList($the_Roster_Id);
-//echo $the_Student_List; 
+$studstring = getStudentList($the_Roster_Id);
+echo "<br><br>";
+$studlist = explode(',', $studstring);
+foreach($studlist as $stud)
+	print $stud . "<br>";
 }
 
 ?>
