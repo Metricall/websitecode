@@ -10,7 +10,7 @@
 </head>
 <?php
 
-if (isset($_POST["Rost_ID"])){ //If it is the first time, it does nothing
+if (isset($_POST["Session_ID"])){ //If it is the first time, it does nothing
     SubmitSessionStart();
 }
 ?>
@@ -19,7 +19,7 @@ if (isset($_POST["Rost_ID"])){ //If it is the first time, it does nothing
 
 <Form name ="form2" Method ="Post" Action ="SetSessionDate.php?func_name=SubmitSessionDate">
 
-<div class = 'col-xs-3'><INPUT TYPE = "TEXT"  Name ="Rost_ID"></div>
+<div class = 'col-xs-3'><INPUT TYPE = "TEXT"  Name ="Session_ID"></div>
 <div class = 'col-xs-3'><INPUT TYPE = "TEXT"  Name ="Start"></div>
 
 <div class = 'col-xs-1'><INPUT TYPE = "Submit" Name = "Set_Session_Start" VALUE = "Update"></div>
@@ -27,10 +27,10 @@ if (isset($_POST["Rost_ID"])){ //If it is the first time, it does nothing
 <?PHP
 function SubmitSessionStart(){
     include 'DatabaseUtilities.php';
-    $the_Roster_Id = $_POST['Rost_ID'];
+    $the_Session_Id = $_POST['Session_ID'];
     $the_Start = $_POST['Start'];
     echo "Calling function";
-    SetSessionStart($the_Roster_Id, $the_Start);
+    SetSessionStart($the_Session_Id, $the_Start);
     
 }
 ?>
