@@ -202,7 +202,74 @@ if (mysqli_num_rows($result) > 0)  {
 	return false;
 }
 mysqli_close($conn);
-}?>
+}
+
+function getSessionRosterID($sessionID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Roster_ID FROM Session WHERE Session_ID = '".$sessionID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$rosterentry = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $rosterentry["Roster_ID"];
+}
+ else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	return false;
+}
+mysqli_close($conn);
+}
+
+function getSessionLocationID($sessionID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Location_ID FROM Session WHERE Session_ID = '".$sessionID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$locationentry = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $locationentry["Location_ID"];
+}
+ else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	return false;
+}
+mysqli_close($conn);
+}
+
+function getSessionAttended($sessionID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Attended FROM Session WHERE Session_ID = '".$sessionID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$attendedentry = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $attendedentry["Attended"];
+}
+ else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	return false;
+}
+mysqli_close($conn);
+}
+?>
 
 
 
