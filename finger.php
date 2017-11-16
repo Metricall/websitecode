@@ -1,28 +1,27 @@
 <html>
 <head>
-<title>Metrical Fingerprint Basic Test</title>
+<title>Metrical Fingerprint</title>
 </head>
 <?php $Identity = $_REQUEST['Identity'] ; $Location = $_REQUEST['Location'] ; ?>
 
 <?php
 function checkin($id, $loc) {
+	include 'SimDatabaseUtilities.php';
 	//trying to find current session, start as false
 	$CurrentSession = false;
 
 	//get session list for location from database and make into array
-//	$SessionString = getSessions($loc);
-	$SessionString = "12313,347667,6578456,4564577867,56754534";
+	$SessionString = getSessions($loc);
+	if ($SessionString == false)
+		return false;
 	$SessionList = explode(',', $SessionString);
 	
 	//check date and times to see if it is current session
 	date_default_timezone_set("America/Los_Angeles");
-	foreach ($SessionList as $ThisSession)
-	{
-		if (getSessionDate($ThisSession) == date("Y-m-d"))
-		{
+	foreach ($SessionList as $ThisSession) {
+		if (getSessionDate($ThisSession) == date("Y-m-d")) {
 			//assuming we're using 24h format in Pacific Time Zone
-			if ( date("H:i:sa") >= getSessionStart($ThisSession) AND date("H:i:sa") <= getSessionEnd($ThisSession)
-			{
+			if ( date("H:i:s") >= getSessionStart($ThisSession) AND date("H:i:s") <= getSessionEnd($ThisSession)) {
 				$CurrentSession = $ThisSession;
 				break;
 			}
@@ -33,23 +32,35 @@ function checkin($id, $loc) {
 	if($CurrentSession == false)
 		return false;
 	//if there is a $CurrentSession, try to match $id against list of students for that session
-	else
-	{
+	else {
 		//obtain student list for roster that this session is part of and make into array
 		$StudentString = getStudentList(getRosterID($CurrentSession));
+		if ($StudentString == false)
+			return false;
 		$StudentList = explode(',', $StudentString);
 		
 		//check current $id against stored ids of each student
-		foreach ($StudentList as $ThisStudent)
-		{
+		foreach ($StudentList as $ThisStudent) {
 			//if match found, then add student to 'attended' for this session
-			if($id == getStudentIdentity($ThisStudent))
-			{
+			if($id == getStudentIdentity($ThisStudent)) {
 				//obtain attended and make into array
 				$AttendedString = getAttended($CurrentSession);
-				$AttendedList = explode(',', $AttendedString);
-				//add current student to array
-				$AttendedList[] = $ThisStudent;
+				//add student to attended (but check if already attended)
+				if (strlen($AttendedString) == 0) {
+					$AttendedList[] = $ThisStudent;
+				}
+				else {
+					$AttendedList = explode(',', $AttendedString);
+					$AlreadyAttended = false;
+					foreach ($AttendedList as $Attended) {
+						if ($Attended == $ThisStudent)
+							$AlreadyAttended = true;
+					}
+					if (!$AlreadyAttended)
+						$AttendedList[] = $ThisStudent;
+					sort($AttendedList);
+				}
+				
 				//construct new string with current student added
 				$AttendedString = implode(',', $AttendedList);
 				//replace attended for this session with new string containing this student
@@ -106,7 +117,7 @@ if ($Location == "admin") {
 </font>
 <br><br><br><br><br><br><br>
 <?php print "i: " . $Identity . " | l: " . $Location; ?>
-<center>
+</center>
 <p>
 </body>
 </html>
