@@ -335,6 +335,72 @@ else {
 	return false;
 }
 }
+
+function getLocationRoom($locationID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Room_No FROM Location WHERE Location_ID = '".$locationID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$rnum = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $rnum["Room_No"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getLocationBuilding($locationID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Building_Name FROM Location WHERE Location_ID = '".$locationID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$bname = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $bname["Building_Name"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getLocationLocked($locationID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Locked FROM Location WHERE Location_ID = '".$locationID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$lock = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $lock["Locked"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
 ?>
 
 
