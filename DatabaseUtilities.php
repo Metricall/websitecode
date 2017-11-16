@@ -159,7 +159,50 @@ if (mysqli_num_rows($result) > 0)  {
 }
 mysqli_close($conn);
 }
-?>
+
+function getSessionStart($sessionID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Start_Time FROM Session WHERE Session_ID = '".$sessionID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$timeentry = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $timeentry["Start_Time"];
+}
+ else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	return false;
+}
+mysqli_close($conn);
+}
+
+function getSessionEnd($sessionID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT End_Time FROM Session WHERE Session_ID = '".$sessionID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$timeentry = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $timeentry["End_Time"];
+}
+ else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	return false;
+}
+mysqli_close($conn);
+}?>
 
 
 
