@@ -11,7 +11,7 @@ function checkin($id, $loc) {
 	$CurrentSession = false;
 
 	//get session list for location from database and make into array
-	$SessionString = getSessions($loc);
+	$SessionString = getSessionListByLoc($loc);
 	if ($SessionString == false)
 		return false;
 	$SessionList = explode(',', $SessionString);
@@ -34,7 +34,7 @@ function checkin($id, $loc) {
 	//if there is a $CurrentSession, try to match $id against list of students for that session
 	else {
 		//obtain student list for roster that this session is part of and make into array
-		$StudentString = getStudentList(getRosterID($CurrentSession));
+		$StudentString = getStudentList(getSessionRosterID($CurrentSession));
 		if ($StudentString == false)
 			return false;
 		$StudentList = explode(',', $StudentString);
@@ -42,9 +42,9 @@ function checkin($id, $loc) {
 		//check current $id against stored ids of each student
 		foreach ($StudentList as $ThisStudent) {
 			//if match found, then add student to 'attended' for this session
-			if($id == getStudentIdentity($ThisStudent)) {
+			if($id == getUserBiometric($ThisStudent)) {
 				//obtain attended and make into array
-				$AttendedString = getAttended($CurrentSession);
+				$AttendedString = getSessionAttended($CurrentSession);
 				//add student to attended (but check if already attended)
 				if (strlen($AttendedString) == 0) {
 					$AttendedList[] = $ThisStudent;
@@ -64,7 +64,7 @@ function checkin($id, $loc) {
 				//construct new string with current student added
 				$AttendedString = implode(',', $AttendedList);
 				//replace attended for this session with new string containing this student
-				setAttended($CurrentSession, $AttendedString);
+				setSessionAttended($CurrentSession, $AttendedString);
 				return true;
 			}
 		}
