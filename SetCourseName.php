@@ -30,7 +30,7 @@ function submitcoursename(){
     $the_Roster_Id = $_POST['Rost_ID'];
     $the_Student_List = $_POST['Course_Name'];
     echo "Calling function";
-    SetCourseName($the_Roster_Id, $the_Course_Name);
+    setCourseName($the_Roster_Id, $the_Course_Name);
     
 }
 ?>
