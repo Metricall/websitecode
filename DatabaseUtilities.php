@@ -401,6 +401,163 @@ else {
 	return false;
 }
 }
+
+function getUserFirstName($stdID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Fname FROM Users WHERE Std_ID = '".$stdID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$fn = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $fn["Fname"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getUserLastName($stdID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Lname FROM Users WHERE Std_ID = '".$stdID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$ln = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $ln["Lname"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getUserEmail($stdID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Email_Address FROM Users WHERE Std_ID = '".$stdID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$mail = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $mail["Email_Address"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getUserRole($stdID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Role FROM Users WHERE Std_ID = '".$stdID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$roll = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $roll["Role"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getUserPassword($stdID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Password FROM Users WHERE Std_ID = '".$stdID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$pass = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $pass["Password"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getUserLocked($stdID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Locked FROM Users WHERE Std_ID = '".$stdID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$lock = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $lock["Locked"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+//Getter for biometric data field when it is added
+/*
+function getUserBiometric($stdID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Biometric FROM Users WHERE Std_ID = '".$stdID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$bio = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $bio["Biometric"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+*/
 ?>
 
 
