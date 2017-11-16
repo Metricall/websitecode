@@ -85,11 +85,11 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	exit;
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
 }
 
 function getSessionListByLoc($locationID) {
@@ -108,11 +108,11 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	exit;
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
 }
 
 function getInstructorIDByName($Fname, $Lname) {
@@ -131,12 +131,12 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	exit;
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
-}	
+}
 	
 function getSessionDate($sessionID){
 include 'DatabaseInfo.php';
@@ -153,11 +153,11 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	return $dateentry["Date"];
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
 }
 
 function getSessionStart($sessionID){
@@ -175,11 +175,11 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	return $timeentry["Start_Time"];
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
 }
 
 function getSessionEnd($sessionID){
@@ -197,11 +197,11 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	return $timeentry["End_Time"];
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
 }
 
 function getSessionRosterID($sessionID){
@@ -219,11 +219,11 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	return $rosterentry["Roster_ID"];
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
 }
 
 function getSessionLocationID($sessionID){
@@ -241,11 +241,11 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	return $locationentry["Location_ID"];
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
 }
 
 function getSessionAttended($sessionID){
@@ -263,11 +263,77 @@ if (mysqli_num_rows($result) > 0)  {
 	mysqli_close($conn);
 	return $attendedentry["Attended"];
 }
- else {
+else {
     echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
 	return false;
 }
-mysqli_close($conn);
+}
+
+function getRosterCourseName($rosterID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Course_Name FROM Roster WHERE Roster_ID = '".$rosterID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$cname = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $cname["Course_Name"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getRosterInstructor($rosterID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Instructor_ID FROM Roster WHERE Roster_ID = '".$rosterID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$inum = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $inum["Instructor_ID"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getRosterLocation($rosterID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}	
+$sql = "SELECT Default_Location FROM Roster WHERE Roster_ID = '".$rosterID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully";
+	$dloc = mysqli_fetch_assoc($result);
+	mysqli_close($conn);
+	return $dloc["Default_Location"];
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
 }
 ?>
 

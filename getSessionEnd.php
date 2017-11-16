@@ -10,7 +10,7 @@
  </head>
 <body>
   
-<form action="getSessionDate.php" method="get" enctype="application/x-www-form-urlencoded">
+<form action="getSessionEnd.php" method="get" enctype="application/x-www-form-urlencoded">
 <p>Enter Session ID: <input type="text" name="sid" size="20"" />
 &nbsp;&nbsp;
 <input type="submit" value="Calculate" />

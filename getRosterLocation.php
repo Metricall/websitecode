@@ -10,8 +10,8 @@
  </head>
 <body>
   
-<form action="getSessionLocationID.php" method="get" enctype="application/x-www-form-urlencoded">
-<p>Enter Session ID: <input type="text" name="sid" size="20"" />
+<form action="getRosterLocation.php" method="get" enctype="application/x-www-form-urlencoded">
+<p>Enter Roster ID: <input type="text" name="rid" size="20"" />
 &nbsp;&nbsp;
 <input type="submit" value="Calculate" />
 </form>
@@ -19,15 +19,15 @@
 <font size="500%" face="verdana">
 <?php
 
-if (isset($_GET['sid'])) {
+if (isset($_GET['rid'])) {
 	showGet();
 }
 
 function showGet() {
 	include 'DatabaseUtilities.php';
-	$session = $_GET['sid'];
-	$lid = getSessionLocationID($session);
-	print $lid;
+	$roster = $_GET['rid'];
+	$thevalue = getRosterLocation($roster);
+	print $thevalue;
 }
 ?>
 </font>
