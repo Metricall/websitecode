@@ -44,6 +44,81 @@ mysqli_close($conn);
 	
 }
 
+function SetSessionDate($the_Session_ID, $the_Date){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+//$sql = "UPDATE Roster SET Course_Name = '".$the_Course_Name."' WHERE Roster_ID = '".$the_Roster_ID."'";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Record updated successfully";
+} else {
+    echo "Error updating record: " . mysqli_error($conn);
+}
+mysqli_close($conn);
+	
+}
+
+function SetSessionStart($the_Session_ID, $the_Start){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+//$sql = "UPDATE Roster SET Course_Name = '".$the_Course_Name."' WHERE Roster_ID = '".$the_Roster_ID."'";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Record updated successfully";
+} else {
+    echo "Error updating record: " . mysqli_error($conn);
+}
+mysqli_close($conn);
+	
+}
+
+function SetSessionEnd($the_Session_ID, $the_End){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+//$sql = "UPDATE Roster SET Course_Name = '".$the_Course_Name."' WHERE Roster_ID = '".$the_Roster_ID."'";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Record updated successfully";
+} else {
+    echo "Error updating record: " . mysqli_error($conn);
+}
+mysqli_close($conn);
+	
+}
+
+function UpdateInstID($the_Roster_Id, $the_Instructor_ID, $the_First_Name, $the_Last_Name){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+//$sql = "UPDATE Roster SET Course_Name = '".$the_Course_Name."' WHERE Roster_ID = '".$the_Roster_ID."'";
+
+if (mysqli_query($conn, $sql)) {
+    echo "Record updated successfully";
+} else {
+    echo "Error updating record: " . mysqli_error($conn);
+}
+mysqli_close($conn);
+	
+}
 
 //--------------------------------------------------------
 //ADD FUNCTIONS
