@@ -103,8 +103,44 @@ $sql = "SELECT Session_ID FROM Session WHERE Location_ID = '".$locationID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
     echo "Record retrived successfully";
-	$list = mysqli_fetch_all($result);
-	return $list;
+	$sql_list = mysqli_fetch_all($result);
+	foreach($sql_list as $aSession)
+	{
+		$list[] = $aSession[0];
+	}
+	$liststring = implode(',', $list);
+	return $liststring;
+	mysqli_close($conn);
+	exit;
+}
+else {
+    echo "Error retreiving record: " . mysqli_error($conn);
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getRosterListByInstructor($instructor) {
+include 'DatabaseInfo.php';
+// Create Connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$fn = strtok($instructor, " ");
+$ln = strtok(" ");
+$userID = getInstructorIDByName($fn, $ln);
+$sql = "SELECT Roster_ID FROM Roster WHERE Instructor_ID = '".$userID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+    echo "Record retrived successfully <br>";
+	$sql_list = mysqli_fetch_all($result);
+	foreach($sql_list as $aSession)
+	{
+		$list[] = $aSession[0];
+	}
+	$liststring = implode(',', $list);
+	return $liststring;
 	mysqli_close($conn);
 	exit;
 }
