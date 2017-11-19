@@ -68,30 +68,6 @@ mysqli_close($conn);
 //--------------------------------------------------------
 //GET FUNCTIONS
 //--------------------------------------------------------
-function getStudentList($rosterID){
-include 'DatabaseInfo.php';
-// Create connection
-$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error() . "<br>");
-}	
-$sql = "SELECT Student_List FROM Roster WHERE Roster_ID = '".$rosterID."'";
-$result = mysqli_query($conn, $sql);	
-if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
-	$list = mysqli_fetch_assoc($result);
-	$liststring = $list["Student_List"];
-	return $liststring;
-	mysqli_close($conn);
-	exit;
-}
-else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
-	mysqli_close($conn);
-	return false;
-}
-}
-
 function getSessionListByLoc($locationID) {
 include 'DatabaseInfo.php';
 // Create Connection
@@ -102,7 +78,6 @@ if (!$conn) {
 $sql = "SELECT Session_ID FROM Session WHERE Location_ID = '".$locationID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$sql_list = mysqli_fetch_all($result);
 	foreach($sql_list as $aSession)
 	{
@@ -114,7 +89,6 @@ if (mysqli_num_rows($result) > 0)  {
 	exit;
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -133,7 +107,6 @@ $userID = getInstructorIDByName($fn, $ln);
 $sql = "SELECT Roster_ID FROM Roster WHERE Instructor_ID = '".$userID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully <br>";
 	$sql_list = mysqli_fetch_all($result);
 	foreach($sql_list as $aSession)
 	{
@@ -145,7 +118,6 @@ if (mysqli_num_rows($result) > 0)  {
 	exit;
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -168,7 +140,6 @@ if (mysqli_num_rows($result) > 0)  {
 	exit;
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -184,13 +155,11 @@ if (!$conn) {
 $sql = "SELECT Date FROM Session WHERE Session_ID = '".$sessionID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$dateentry = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $dateentry["Date"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -206,13 +175,11 @@ if (!$conn) {
 $sql = "SELECT Start_Time FROM Session WHERE Session_ID = '".$sessionID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$timeentry = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $timeentry["Start_Time"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -228,13 +195,11 @@ if (!$conn) {
 $sql = "SELECT End_Time FROM Session WHERE Session_ID = '".$sessionID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$timeentry = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $timeentry["End_Time"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -250,13 +215,11 @@ if (!$conn) {
 $sql = "SELECT Roster_ID FROM Session WHERE Session_ID = '".$sessionID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$rosterentry = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $rosterentry["Roster_ID"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -272,13 +235,11 @@ if (!$conn) {
 $sql = "SELECT Location_ID FROM Session WHERE Session_ID = '".$sessionID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$locationentry = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $locationentry["Location_ID"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -294,13 +255,11 @@ if (!$conn) {
 $sql = "SELECT Attended FROM Session WHERE Session_ID = '".$sessionID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$attendedentry = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $attendedentry["Attended"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -316,13 +275,33 @@ if (!$conn) {
 $sql = "SELECT Course_Name FROM Roster WHERE Roster_ID = '".$rosterID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$cname = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $cname["Course_Name"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function getRosterStudentList($rosterID){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}	
+$sql = "SELECT Student_List FROM Roster WHERE Roster_ID = '".$rosterID."'";
+$result = mysqli_query($conn, $sql);	
+if (mysqli_num_rows($result) > 0)  {
+	$list = mysqli_fetch_assoc($result);
+	$liststring = $list["Student_List"];
+	return $liststring;
+	mysqli_close($conn);
+	exit;
+}
+else {
 	mysqli_close($conn);
 	return false;
 }
@@ -338,13 +317,11 @@ if (!$conn) {
 $sql = "SELECT Instructor_ID FROM Roster WHERE Roster_ID = '".$rosterID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$inum = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $inum["Instructor_ID"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -360,13 +337,11 @@ if (!$conn) {
 $sql = "SELECT Default_Location FROM Roster WHERE Roster_ID = '".$rosterID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$dloc = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $dloc["Default_Location"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -382,13 +357,11 @@ if (!$conn) {
 $sql = "SELECT Room_No FROM Location WHERE Location_ID = '".$locationID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$rnum = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $rnum["Room_No"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -404,13 +377,11 @@ if (!$conn) {
 $sql = "SELECT Building_Name FROM Location WHERE Location_ID = '".$locationID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$bname = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $bname["Building_Name"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -426,13 +397,11 @@ if (!$conn) {
 $sql = "SELECT Locked FROM Location WHERE Location_ID = '".$locationID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$lock = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $lock["Locked"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -448,13 +417,11 @@ if (!$conn) {
 $sql = "SELECT Fname FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$fn = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $fn["Fname"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -470,13 +437,11 @@ if (!$conn) {
 $sql = "SELECT Lname FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$ln = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $ln["Lname"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -492,13 +457,11 @@ if (!$conn) {
 $sql = "SELECT Email_Address FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$mail = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $mail["Email_Address"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -514,13 +477,11 @@ if (!$conn) {
 $sql = "SELECT Role FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$roll = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $roll["Role"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -536,13 +497,11 @@ if (!$conn) {
 $sql = "SELECT Password FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$pass = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $pass["Password"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
@@ -558,13 +517,11 @@ if (!$conn) {
 $sql = "SELECT Locked FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$lock = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $lock["Locked"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
