@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <!--Metrical Main Site
  -->
@@ -8,7 +11,16 @@
     <title> Metrical </title>
     <meta charset = "utf-8">
  </head>
- <body>
-    <script>document.location.replace("metricalsite.php");</script>
+<body>
+<font size="500%" face="verdana">
+<?php
+	session_unset();
+	session_destroy();
+	echo '<script>document.location.replace("/");</script>';
+?>
+</font>
   </body>
 </html>
+
+
+
