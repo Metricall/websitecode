@@ -4,18 +4,47 @@ session_start();
 <?php
 	include 'LoginUtilities.php';
 	if (checkLogin()) {
+		//not an admin or insturctor
+		if ($_SESSION["role"] != "Admin" AND $_SESSION["role"] != "Professor")
+			header("Location: logout.php");
 		//if it's an admin but has not chosen a professor
-		if($_SESSION["role"] == "Admin" AND !isset($_SESSION["instructorID"]))
+		elseif($_SESSION["role"] == "Admin" AND !isset($_SESSION["instructorID"]))
 			header("Location: adminmain.html");
 		//professor user id is assigned as instructor id
 		elseif ($_SESSION["role"] == "Professor")
 			$_SESSION["instructorID"] = $_SESSION["uid"];
-		//not an admin or insturctor
-		elseif ($_SESSION["role"] != "Admin" AND $_SESSION["role"] != "Professor")
-			header("Location: logout.php");
 	}
-	else
-		header("Location: logout.php");
+?>
+<?php
+	include 'DatabaseUtilities.php';
+	$fn = getUserFirstName($_SESSION["instructorID"]);
+	$ln = getUserLastName($_SESSION["instructorID"]);
+	$_SESSION["instructorName"] =  "{$fn} {$ln}";
+	
+	if(isset($_REQUEST["rid"])) {
+		$_SESSION["rid"] = $_REQUEST["rid"];
+		header("Location: professorclass.php");
+	}
+	
+	function rosterlist(){
+		$classlist = getRosterListByInstructor($_SESSION["instructorName"]);
+		if (strlen($classlist) == 0) {
+			echo "You do not have any classes available.  If you believe this to be an error, please contact an administrator.";
+		}
+		else {
+			$classes = explode(',', $classlist);
+			echo "<form action='professormain.php' method='post'>";
+			foreach($classes as $aClass)
+			{
+				echo "<div class = 'col-xs-12'><button type='submit' value='";
+				echo $aClass;
+				echo "' name='rid'>";
+				echo getRosterCourseName($aClass);
+				echo "</button> </div><br><br>";
+			}
+			echo "</form>";
+		}
+	}
 ?>
 <!DOCTYPE html>
 <!--professor
@@ -28,25 +57,16 @@ session_start();
     <meta charset = "utf-8">
   </head>
   <body>
-  <div class = 'row' id = 'logo'>
-	<div class = 'col-xs-1'></div>
-	<div class = 'col-xs-3'><h2>M e t r i c a l </h2></div>
-	<div class = 'col-xs-4'><a href = 'professorclasses.html'><img src = 'metrical3.png' width = '80px' ></a></div>
-	<div class = 'col-xs-5'></div>
-	</div>
-	<div class = 'row' id = 'taskbar'>
-	<div class = 'col-xs-1'></div>
-	<div class = 'col-xs-2'><a href = 'createsession.html'><h4>Create Session</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'generatereport.html'><h4>Generate Report</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'editstudents.html'><h4>Edit Students</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'contactus.html'><h4>Contact Us</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'metricalsite.html'><h4>Logout</h4></a></div>
-	</div><br><br>
-	
+	<?php include 'header.php'; ?>
+	<?php include 'instructorwelcome.php'; ?>
 	<div class = 'row' id = 'yourclasses'>
-	<div class = 'col-xs-5'></div>
-	<div class = 'col-xs-7'><h2>Hello <?php include 'DatabaseUtilities.php'; print getUserFirstName($_SESSION["instructorID"]) . " " . getUserLastName($_SESSION["instructorID"]); ?>, let's begin.</h2></div>
-	
+	<div class = 'col-xs-12' align="center">
+	<h2>Your Classes</h2>
+	<h3>
+	<?php rosterlist(); ?>
+	<br><br>
+	</h3>
 	</div>
-
+	</div>
+	<?php include 'footer.php'; ?>
 </html>

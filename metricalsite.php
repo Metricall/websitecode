@@ -28,13 +28,13 @@ session_start();
 	<div class = 'row' id = 'login'>
 	<div class = 'col-xs-4'></div>
 	<div class = 'col-xs-1'>Email</div>
-	<div class = 'col-xs-3'><input type="text" name="user" size="20" /></div>
+	<div class = 'col-xs-3'><input type="text" name="user" size="30" /></div>
 	</div><br>
 	<div class = 'row' id = 'pass'>
     <div class = 'col-xs-4'></div>
 	<div class = 'col-xs-1'>Password</div>
-	<div class = 'col-xs-2'><input type="password" name="pass" size="20" /></div>
-	<div class = 'col-xs-1'><input type="submit" value="Login" /></div>
+	<div class = 'col-xs-3'><input type="password" name="pass" size="30" /></div>
+	<div class = 'col-xs-1' align='left'><input type="submit" value="Login" /></div>
 	<?php
 	if (isset($_REQUEST['user'])) {
 		tryAction();
