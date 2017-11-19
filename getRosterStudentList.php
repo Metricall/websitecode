@@ -17,7 +17,7 @@ if (isset($_POST["Roster_ID"])){ //If it is the first time, it does nothing
 
  <body>
   
-	<Form name ="form2" Method ="Post" Action ="getStudentList.php?func_name=getList">
+	<Form name ="form2" Method ="Post" Action ="getRosterStudentList.php?func_name=getList">
 
 	<div class = 'col-xs-3'><INPUT TYPE = "TEXT"  Name ="Roster_ID"></div>
 	
@@ -31,7 +31,7 @@ include 'DatabaseUtilities.php';
 echo "Calling get function<br>";
 $the_Roster_Id = $_POST['Roster_ID'];
 
-$studstring = getStudentList($the_Roster_Id);
+$studstring = getRosterStudentList($the_Roster_Id);
 echo "<br><br>";
 $studlist = explode(',', $studstring);
 foreach($studlist as $stud)
