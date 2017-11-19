@@ -5,11 +5,13 @@ session_start();
 <?php
 function attemptLogin($u, $p){
 include 'DatabaseInfo.php';
+include 'DatabaseUtilities.php';
 $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "SELECT Std_ID FROM Users WHERE Email_Address = '".$u."'";
+$cleanuser = cleaninput($u);
+$sql = "SELECT Std_ID FROM Users WHERE Email_Address = '".$cleanuser."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
 	$info = mysqli_fetch_assoc($result);
@@ -36,18 +38,25 @@ else {
 function checkLogin() {
 //check that there is a uid
 if (!isset($_SESSION["uid"])) {
-	echo '<script>document.location.replace("logout.php");</script>';
+	header("Location: logout.php");
 	return false;
 }
 //check if timeout
 elseif ($_SESSION["expire"] - time() < 0) {
-	echo '<script>document.location.replace("logout.php");</script>';
+	header("Location: logout.php");
 	return false;
 }
 else {
 	$_SESSION["expire"] = time() + 600;
 	return true;
 }
+}
+
+function cleaninput($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
 }
 
 ?>

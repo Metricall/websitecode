@@ -14,9 +14,9 @@ session_start();
  <body>
 <?php
 	if($_SESSION["role"] == "Admin")
-		echo '<script>document.location.replace("adminmain.html");</script>';
+		header("Location: adminmain.html");
 	elseif ($_SESSION["role"] == "Professor")
-		echo '<script>document.location.replace("professormain.html");</script>';
+		header("Location: professormain.php");
 ?>
     <div class = 'row' id = 'logo'>
 	<div class = 'col-xs-1'></div>
@@ -54,16 +54,17 @@ if (isset($_REQUEST['user'])) {
 }
 
 function tryAction() {
-	include 'DatabaseUtilities.php';
 	include 'LoginUtilities.php';
 	$loggedin = attemptLogin($_REQUEST['user'], $_REQUEST['pass']);
 	if ($loggedin) {
 		if($_SESSION["role"] == "Admin")
-			echo '<script>document.location.replace("adminmain.html");</script>';
+			header("Location: adminmain.html");
 		elseif ($_SESSION["role"] == "Professor")
-			echo '<script>document.location.replace("professormain.html");</script>';
-		elseif  ($_SESSION["role"] == "Student")
-			echo "Sorry, Student Login Not Available.";
+			header("Location: professormain.php");
+		elseif  ($_SESSION["role"] == "Student") {
+			echo "Sorry, student functionality unavailable.";
+			header( "refresh:5; url=logout.php" ); 
+		}
 	}
 	else
 		echo "Login Failed. Please Retry.";
@@ -87,6 +88,5 @@ function tryAction() {
 	<div class = 'col-xs-2'><a href = 'subscribe.html'><h4>Subscribe</h4></a></div>
 	<div class = 'col-xs-2'></div>
 	</div>
-
   </body>
 </html>
