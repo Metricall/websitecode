@@ -1,6 +1,12 @@
 <?php
 session_start();
 ?>
+<?php
+	if($_SESSION["role"] == "Admin")
+		header("Location: adminmain.html");
+	elseif ($_SESSION["role"] == "Professor")
+		header("Location: professormain.php");
+?>
 <!DOCTYPE html>
 <!--Metrical Main Site
  -->
@@ -12,26 +18,7 @@ session_start();
     <meta charset = "utf-8">
  </head>
  <body>
-<?php
-	if($_SESSION["role"] == "Admin")
-		header("Location: adminmain.html");
-	elseif ($_SESSION["role"] == "Professor")
-		header("Location: professormain.php");
-?>
-    <div class = 'row' id = 'logo'>
-	<div class = 'col-xs-1'></div>
-	<div class = 'col-xs-3'><h2>M e t r i c a l </h2></div>
-	<div class = 'col-xs-4'><a href = 'metricalsite.html'><img src = 'metrical3.png' width = '80px' ></a></div>
-	<div class = 'col-xs-5'></div>
-	</div>
-	<div class = 'row' id = 'taskbar'>
-	<div class = 'col-xs-1'></div>
-	<div class = 'col-xs-2'><a href = 'products.html'><h4>Products</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'resources.html'><h4>Resources</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'news.html'><h4>News</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'about.html'><h4>About</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'contactus.html'><h4>Contact Us</h4></a></div>
-	</div><br>
+	<?php include 'header.php'; ?>
 	<div class = 'row' id = 'member'>
 	<div class = 'col-xs-5'></div>
 	<div class = 'col-xs-4'>Already a member?</div>
@@ -48,28 +35,28 @@ session_start();
 	<div class = 'col-xs-1'>Password</div>
 	<div class = 'col-xs-2'><input type="password" name="pass" size="20" /></div>
 	<div class = 'col-xs-1'><input type="submit" value="Login" /></div>
-<?php
-if (isset($_REQUEST['user'])) {
-	tryAction();
-}
-
-function tryAction() {
-	include 'LoginUtilities.php';
-	$loggedin = attemptLogin($_REQUEST['user'], $_REQUEST['pass']);
-	if ($loggedin) {
-		if($_SESSION["role"] == "Admin")
-			header("Location: adminmain.html");
-		elseif ($_SESSION["role"] == "Professor")
-			header("Location: professormain.php");
-		elseif  ($_SESSION["role"] == "Student") {
-			echo "Sorry, student functionality unavailable.";
-			header( "refresh:5; url=logout.php" ); 
-		}
+	<?php
+	if (isset($_REQUEST['user'])) {
+		tryAction();
 	}
-	else
-		echo "Login Failed. Please Retry.";
-}
-?>
+
+	function tryAction() {
+		include 'LoginUtilities.php';
+		$loggedin = attemptLogin($_REQUEST['user'], $_REQUEST['pass']);
+		if ($loggedin) {
+			if($_SESSION["role"] == "Admin")
+				header("Location: adminmain.html");
+			elseif ($_SESSION["role"] == "Professor")
+				header("Location: professormain.php");
+			elseif  ($_SESSION["role"] == "Student") {
+				echo "Sorry, student functionality unavailable.";
+				header( "refresh:5; url=logout.php" ); 
+			}
+		}
+		else
+			echo "Login Failed. Please Retry.";
+	}
+	?>
 	</div>
 	</div>
 	</form>
@@ -79,14 +66,7 @@ function tryAction() {
 	</div>
 	
 	<div id = 'backimage'></div>
-	
-	<div class = 'row' id = 'footerOne'>
-	<div class = 'col-xs-2'></div>
-	<div class = 'col-xs-2'><a href = 'contactus.html'><h4>Contact Us</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'socialmedia.html'><h4>Social Media</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'developers.html'><h4>Developers</h4></a></div>
-	<div class = 'col-xs-2'><a href = 'subscribe.html'><h4>Subscribe</h4></a></div>
-	<div class = 'col-xs-2'></div>
-	</div>
+
+	<?php include 'footer.php'; ?>
   </body>
 </html>
