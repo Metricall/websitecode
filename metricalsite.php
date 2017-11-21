@@ -48,7 +48,8 @@ session_start();
 				echo "Sorry, student functionality unavailable.";
 				header("refresh:5; url=logout.php"); 
 			}
-			header("refresh:0");	//refresh since this page redirects logged in users
+			else
+				header("refresh:0");	//refresh since this page redirects logged in users
 		}
 		else
 			echo "Login Failed. Please Retry.";

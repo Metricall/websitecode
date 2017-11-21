@@ -109,9 +109,11 @@ if ($Location == "admin") {
 } elseif (checkin($Identity, $Location)) {
 	echo "<body style='background-color:green'>";
 	print "Attended!";
+	header ("refresh:3; url=findex.php");
 } else {
 	echo "<body style='background-color:red'>";
 	print "Attendance checkin failed.";
+	header ("refresh:3; url=findex.php");
 }
 ?>
 </font>
