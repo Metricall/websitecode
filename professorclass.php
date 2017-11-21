@@ -7,9 +7,6 @@ session_start();
 		//not an admin or insturctor
 		if ($_SESSION["role"] != "Admin" AND $_SESSION["role"] != "Professor")
 			header("Location: logout.php");
-		//if it's an admin but has not chosen a professor
-		elseif($_SESSION["role"] == "Admin" AND !isset($_SESSION["instructorID"]))
-			header("Location: adminmain.html");
 		//no roster chosen
 		elseif (!isset($_SESSION["rid"]))
 			header("Location: professormain.php");
@@ -34,6 +31,7 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
+	<?php if ($_SESSION["role"] == "Admin") include 'adminmenu.php'; ?>
 	<?php include 'instructorwelcome.php'; ?>
 	<div class = 'row' id = 'yourclasses'>
 	<div class = 'col-xs-12' align="center"><h2>Active Class: <?php	sayclass(); ?></h2>

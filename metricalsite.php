@@ -3,7 +3,7 @@ session_start();
 ?>
 <?php
 	if($_SESSION["role"] == "Admin")
-		header("Location: adminmain.html");
+		header("Location: adminmain.php");
 	elseif ($_SESSION["role"] == "Professor")
 		header("Location: professormain.php");
 ?>
@@ -44,14 +44,11 @@ session_start();
 		include 'LoginUtilities.php';
 		$loggedin = attemptLogin($_REQUEST['user'], $_REQUEST['pass']);
 		if ($loggedin) {
-			if($_SESSION["role"] == "Admin")
-				header("Location: adminmain.html");
-			elseif ($_SESSION["role"] == "Professor")
-				header("Location: professormain.php");
-			elseif  ($_SESSION["role"] == "Student") {
+			if  ($_SESSION["role"] == "Student") {
 				echo "Sorry, student functionality unavailable.";
-				header( "refresh:5; url=logout.php" ); 
+				header("refresh:5; url=logout.php"); 
 			}
+			header("refresh:0");	//refresh since this page redirects logged in users
 		}
 		else
 			echo "Login Failed. Please Retry.";

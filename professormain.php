@@ -9,7 +9,7 @@ session_start();
 			header("Location: logout.php");
 		//if it's an admin but has not chosen a professor
 		elseif($_SESSION["role"] == "Admin" AND !isset($_SESSION["instructorID"]))
-			header("Location: adminmain.html");
+			header("Location: adminmain.php");
 		//professor user id is assigned as instructor id
 		elseif ($_SESSION["role"] == "Professor")
 			$_SESSION["instructorID"] = $_SESSION["uid"];
@@ -58,6 +58,7 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
+	<?php if ($_SESSION["role"] == "Admin") include 'adminmenu.php'; ?>
 	<?php include 'instructorwelcome.php'; ?>
 	<div class = 'row' id = 'yourclasses'>
 	<div class = 'col-xs-12' align="center">
