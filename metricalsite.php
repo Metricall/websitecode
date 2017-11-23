@@ -19,6 +19,7 @@ session_start();
  </head>
  <body>
 	<?php include 'header.php'; ?>
+	<br>
 	<div class = 'row' id = 'member'>
 	<div class = 'col-xs-5'></div>
 	<div class = 'col-xs-4'>Already a member?</div>
@@ -60,7 +61,7 @@ session_start();
 	</form>
 	<div class = 'row' id = 'problem'>
 	<div class = 'col-xs-5'></div>
-	<div class = 'col-xs-4'><a href = 'cantlogin.html'>Can't login?</a></div>
+	<div class = 'col-xs-4'><a href = 'contactus.php'>Can't login?</a></div>
 	</div>
 	
 	<div id = 'backimage'></div>

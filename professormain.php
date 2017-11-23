@@ -27,7 +27,7 @@ session_start();
 	}
 	
 	function rosterlist(){
-		$classlist = getRosterListByInstructor($_SESSION["instructorName"]);
+		$classlist = getRosterListByInstructor($_SESSION["instructorID"]);
 		if (strlen($classlist) == 0) {
 			echo "You do not have any classes available.  If you believe this to be an error, please contact an administrator.";
 		}
@@ -58,8 +58,10 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<?php if ($_SESSION["role"] == "Admin") include 'adminmenu.php'; ?>
+	<br>
+	<?php if ($_SESSION["role"] == "Admin"){include 'adminwelcome.php';echo "<br>";} ?>
 	<?php include 'instructorwelcome.php'; ?>
+	<br>
 	<div class = 'row' id = 'yourclasses'>
 	<div class = 'col-xs-12' align="center">
 	<h2>Your Classes</h2>

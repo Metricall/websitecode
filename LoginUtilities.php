@@ -1,8 +1,4 @@
 <?php
-session_start();
-?>
-
-<?php
 function attemptLogin($u, $p){
 include 'DatabaseInfo.php';
 include 'DatabaseUtilities.php';

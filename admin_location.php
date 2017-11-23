@@ -22,8 +22,21 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
+	<br>
+	<?php include 'adminwelcome.php'; ?>
+	<br>
 	<?php include 'adminmenu.php'; ?>
-	<?php include 'admindrop.php'; ?>
+	<br>
+	<script src = "roster.js"></script>
+	<form name="form1" method="POST">
+		<center>Search:
+			<select id="myDropdown" onchange="itemSelected();">
+				<option value="location">Location</option>
+			</select>
+			<input type = "text" id="searchTarget">
+			<input type="submit" value="Submit" name="submit" onclick="showSearch();">
+		</center><br>
+	</form>
 	<center>
 		<button class="createButton" id="creatRosId" type="button" onclick="newRosForm();">
 			Create Location</button>

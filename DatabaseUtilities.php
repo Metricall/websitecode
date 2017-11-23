@@ -68,6 +68,9 @@ mysqli_close($conn);
 //--------------------------------------------------------
 //GET FUNCTIONS
 //--------------------------------------------------------
+
+//$locationID is a Location_ID
+//returns list of all sessions at that location
 function getSessionListByLoc($locationID) {
 include 'DatabaseInfo.php';
 // Create Connection
@@ -94,17 +97,16 @@ else {
 }
 }
 
-function getRosterListByInstructor($instructor) {
+//$rosterID is a Roster_ID
+//returns list of all sessions at that roster
+function getSessionListByRoster($rosterID) {
 include 'DatabaseInfo.php';
 // Create Connection
 $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
-}
-$fn = strtok($instructor, " ");
-$ln = strtok(" ");
-$userID = getInstructorIDByName($fn, $ln);
-$sql = "SELECT Roster_ID FROM Roster WHERE Instructor_ID = '".$userID."'";
+}	
+$sql = "SELECT Session_ID FROM Session WHERE Roster_ID = '".$rosterID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
 	$sql_list = mysqli_fetch_all($result);
@@ -123,19 +125,57 @@ else {
 }
 }
 
-function getInstructorIDByName($Fname, $Lname) {
+
+//$instructorID is instructor's userID
+//returns list of their classes
+function getRosterListByInstructor($instructorID) {
 include 'DatabaseInfo.php';
-// Create connection
+// Create Connection
 $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
-}	
-$sql = "SELECT Std_ID FROM Users WHERE Fname = '".$Fname."' AND Lname = '".$Lname."'";
+}
+$sql = "SELECT Roster_ID FROM Roster WHERE Instructor_ID = '".$instructorID."'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0)  {
+	$sql_list = mysqli_fetch_all($result);
+	foreach($sql_list as $aSession)
+	{
+		$list[] = $aSession[0];
+	}
+	$liststring = implode(',', $list);
+	return $liststring;
+	mysqli_close($conn);
+	exit;
+}
+else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+//$name is string with <firstname> <lastname> with a space in between
+//returns list of users with matching name (multiple users can have same name)
+function getUserIDsByName($name) {
+include 'DatabaseInfo.php';
+// Create Connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+//tokenize name to get first and last names
+$fn = strtok($name, " ");
+$ln = strtok(" ");
+$sql = "SELECT Std_ID FROM Users WHERE Fname = '".$fn."' AND Lname = '".$ln."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-	$query = mysqli_fetch_assoc($result);
-	$the_ID = $query["Std_ID"];
-	return $the_ID;
+	$sql_list = mysqli_fetch_all($result);
+	foreach($sql_list as $aUser)
+	{
+		$list[] = $aUser[0];
+	}
+	$liststring = implode(',', $list);
+	return $liststring;
 	mysqli_close($conn);
 	exit;
 }

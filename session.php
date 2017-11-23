@@ -27,18 +27,42 @@
 	<div class = 'col-xs-3'><input type = 'submit' id = 'submitform' value = 'Create'></div>
 	</div><br><br><br>
 	
+	<div align='center'>
 	<table border='1' id = 'roster'>
   <tr>
-    <th id = 'color11'>Session ID</th>
-    <th id = 'color22'>Session Name</th>
 	<th id = 'color11'>Date</th>
-    <th id = 'color22'>from</th>
-	<th id = 'color11'>to</th>
+    <th id = 'color22'>Start</th>
+	<th id = 'color22'>End</th>
+    <th id = 'color11'>Location</th>
+    <th id = 'color11'>Modify</th>
   </tr>
-  <tr>
-	<td id = 'color11'>11111</td>
-	<td id = 'color22'>Test # 1</td>
-	<td id = 'color11'>March 21, 2018</td>
-	<td id = 'color22'>10:30 AM</td>
-	<td id = 'color22'>12:00 PM</td>
+  <?php
+		$sessionlist = getSessionListByRoster($_SESSION["rid"]);
+		if (strlen($sessionlist) == 0) {
+			echo "This class does not have any sessions.  Try creating some.";
+		}
+		else {
+			$sessions = explode(',', $sessionlist);
+			echo "<form action='sessionmod.php' method='get'>";
+			foreach($sessions as $aSession)
+			{
+				echo "<tr><td id = 'color11'>";
+				echo getSessionDate($aSession);
+				echo "</td><td id = 'color22'>";
+				echo getSessionStart($aSession);
+				echo "</td><td id = 'color22'>";
+				echo getSessionEnd($aSession);
+				echo "</td><td id = 'color11'>";
+				echo getLocationBuilding(getSessionLocationID($aSession));
+				echo " ";
+				echo getLocationRoom(getSessionLocationID($aSession));				
+				echo "</td><td id = 'color11'>";
+				echo "<button type='submit' value='";
+				echo $aSession;
+				echo "' name='sid'>Modify</button></td></tr>";
+			}
+			echo "</form>";
+		}
+  ?>
 </table>
+</div>

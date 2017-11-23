@@ -31,7 +31,11 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
+	<br>
+	<?php include 'adminwelcome.php'; ?>
+	<br>
 	<?php include 'adminmenu.php'; ?>
+	<br><br><br><br><br><br>
 	<?php include 'footer.php'; ?>
   </body>
 </html>

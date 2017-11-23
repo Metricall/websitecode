@@ -8,7 +8,7 @@ session_start();
 		if ($_SESSION["role"] != "Admin" AND $_SESSION["role"] != "Professor")
 			header("Location: logout.php");
 		//no roster chosen
-		elseif (!isset($_SESSION["rid"]))
+		elseif (!isset($_REQUEST["sid"]))
 			header("Location: professormain.php");
 	}
 ?>
@@ -42,14 +42,7 @@ session_start();
 	<?php include 'instructormenu.php'; ?>
 	<br>
 	<?php
-		if ($_REQUEST["act"] == "session")
-			include 'session.php';
-		elseif ($_REQUEST["act"] == "report")
-			include 'report.php';
-		elseif ($_REQUEST["act"] == "edit")
-			include 'manageattendance.php';
-		else
-			include 'profclassdefault.php';
+		echo $_REQUEST["sid"];
 	?>
 	<?php include 'footer.php'; ?>
 </html>

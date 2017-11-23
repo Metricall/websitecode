@@ -1,6 +1,6 @@
 
 	<div class = 'row' id = 'yourclasses'>
-		<div class = 'col-xs-12' align='center'><h2>UI Team, I added this table since it's in your UI mock up, but what does this table do?  What are all the checkboxes supposed to be for?</h2></div>
+		<div class = 'col-xs-12' align='center'><h2>UI Team, I added this table here since it's in your UI mock up, but what does this table do?  What are all the checkboxes supposed to be for?<br><br>The one on the "edit students"/manage attendance page makes sense, but what is this one for?</h2></div>
 	</div><br>
 	<div class = 'row' id = 'yourclasses'>
 	<div class = 'col-xs-5'></div>
