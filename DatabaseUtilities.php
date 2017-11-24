@@ -5,27 +5,115 @@
 //--------------------------------------------------------
 
 
-function setStudentList($rosterID, $studentList){
+function setSessionDate($the_Session_ID, $the_Date){
 include 'DatabaseInfo.php';
 // Create connection
 $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 // Check connection
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error() . "<br>");
+    die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "UPDATE Roster SET Student_List = '".$studentList."' WHERE Roster_ID = '".$rosterID."'";
-//$result = mysqli_query($conn, $sql);
-
+$sql = "UPDATE Session SET Date = '".$the_Date."' WHERE Session_ID = '".$the_Session_ID."'";
 if (mysqli_query($conn, $sql)) {
-    echo "Record updated successfully";
+	mysqli_close($conn);
+	return true;
 } else {
-    echo "Error updating record: " . mysqli_error($conn) . "<br>";
+	mysqli_close($conn);
+	return false;
 }
-mysqli_close($conn);
-	
 }
 
-function setCourseName($the_Roster_ID, $the_Course_Name){
+function setSessionStart($the_Session_ID, $the_Start){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$sql = "UPDATE Session SET Start_Time = '".$the_Start."' WHERE Session_ID = '".$the_Session_ID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setSessionEnd($the_Session_ID, $the_End){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$sql = "UPDATE Session SET End_Time = '".$the_End."' WHERE Roster_ID = '".$the_Session_ID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setSessionRosterID($the_Session_ID, $the_roster){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$sql = "UPDATE Session SET Roster_ID = '".$the_roster."' WHERE Session_ID = '".$the_Session_ID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setSessionLocationID($the_Session_ID, $the_location){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$sql = "UPDATE Session SET Location_ID = '".$the_location."' WHERE Session_ID = '".$the_Session_ID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setSessionAttended($the_Session_ID, $the_attended){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+$sql = "UPDATE Session SET Location_ID = '".$the_attended."' WHERE Session_ID = '".$the_Session_ID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setRosterCourseName($the_Roster_ID, $the_Course_Name){
 include 'DatabaseInfo.php';
 // Create connection
 $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
@@ -34,15 +122,274 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
 $sql = "UPDATE Roster SET Course_Name = '".$the_Course_Name."' WHERE Roster_ID = '".$the_Roster_ID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
 
+
+
+function setRosterStudentList($rosterID, $studentList){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE Roster SET Student_List = '".$studentList."' WHERE Roster_ID = '".$rosterID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setRosterInstructor($rosterID, $the_instructor){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE Roster SET Instructor_ID = '".$the_instructor."' WHERE Roster_ID = '".$rosterID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setRosterLocation($rosterID, $the_location){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE Roster SET Default_Location = '".$the_location."' WHERE Roster_ID = '".$rosterID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setLocationRoom($locationID, $the_room){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE Location SET Room_No = '".$the_room."' WHERE Location_ID = '".$locationID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setLocationBuilding($locationID, $the_building){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE Location SET Building_Name = '".$the_building."' WHERE Location_ID = '".$locationID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setLocationLocked($locationID, $the_lock){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE Location SET Locked = '".$the_lock."' WHERE Location_ID = '".$locationID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setUserFirstName($userID, $the_fn){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE User SET Fname = '".$the_fn."' WHERE Std_ID = '".$userID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setUserLastName($userID, $the_ln){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE User SET Lname = '".$the_ln."' WHERE Std_ID = '".$userID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+//might need checking to prevent duplicating email
+function setUserEmail($userID, $the_email){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE User SET Email_Address = '".$the_email."' WHERE Std_ID = '".$userID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setUserRole($userID, $the_role){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE User SET Role = '".$the_role."' WHERE Std_ID = '".$userID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setUserPassword($userID, $the_pass){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE User SET Password = '".$the_pass."' WHERE Std_ID = '".$userID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function setUserLocked($userID, $the_lock){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE User SET Locked = '".$the_lock."' WHERE Std_ID = '".$userID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+//setter for biometric data field when it is added
+/*
+function setUserBiometric($userID, $the_bio){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "UPDATE User SET Biometric = '".$the_bio."' WHERE Std_ID = '".$userID."'";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+*/
+
+/*  what is this thing?
+function UpdateInstID($the_Roster_Id, $the_Instructor_ID, $the_First_Name, $the_Last_Name){
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+//$sql = "UPDATE Roster SET Course_Name = '".$the_Course_Name."' WHERE Roster_ID = '".$the_Roster_ID."'";
 if (mysqli_query($conn, $sql)) {
     echo "Record updated successfully";
 } else {
-    echo "Error updating record: " . mysqli_error($conn) . "<br>";
+    echo "Error updating record: " . mysqli_error($conn);
 }
 mysqli_close($conn);
-	
 }
+*/
+
 //--------------------------------------------------------
 //ADD FUNCTIONS
 //--------------------------------------------------------
@@ -56,13 +403,13 @@ if (!$conn) {
 }
 $sql = "INSERT INTO Roster (Roster_ID, Course_Name, Student_List, Instructor_ID, Default_Location) VALUES ('".$Roster_ID."', '', '', '".$Instructor_ID."', '".$LocationID."')";
 if (mysqli_query($conn, $sql)) {
-    echo "Record added successfully";
+	mysqli_close($conn);
+	return true;
 } else {
-    echo "Error adding record: " . mysqli_error($conn) . "<br>";
+	mysqli_close($conn);
+	return false;
 }
-mysqli_close($conn);
-	
-}	
+}
 
 
 //--------------------------------------------------------
