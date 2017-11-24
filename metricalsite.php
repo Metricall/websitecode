@@ -2,10 +2,12 @@
 session_start();
 ?>
 <?php
-	if($_SESSION["role"] == "Admin")
-		header("Location: adminmain.php");
-	elseif ($_SESSION["role"] == "Professor")
-		header("Location: professormain.php");
+	if (isset($_SESSION["role"])) {
+		if ($_SESSION["role"] == "Admin")
+			header("Location: adminmain.php");
+		elseif ($_SESSION["role"] == "Professor")
+			header("Location: professormain.php");
+	}
 ?>
 <!DOCTYPE html>
 <!--Metrical Main Site

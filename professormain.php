@@ -33,7 +33,9 @@ session_start();
 		}
 		else {
 			$classes = explode(',', $classlist);
-			echo "<form action='professormain.php' method='post'>";
+			echo "<form action='";
+			echo htmlspecialchars($_SERVER["PHP_SELF"]);
+			echo "' method='post'>";
 			foreach($classes as $aClass)
 			{
 				echo "<div class = 'col-xs-12'><button type='submit' value='";

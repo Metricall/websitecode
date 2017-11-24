@@ -7,13 +7,14 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 $cleanuser = cleaninput($u);
+$cleanpass = cleaninput($p);
 $sql = "SELECT Std_ID FROM Users WHERE Email_Address = '".$cleanuser."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
 	$info = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	$uid = $info["Std_ID"];
-	if ($p == getUserPassword($uid) AND getUserLocked($uid) == 0) {
+	if ($cleanpass == getUserPassword($uid) AND getUserLocked($uid) == 0) {
 		$_SESSION["uid"] = $uid;
 		$_SESSION["role"] = getUserRole($uid);
 		$_SESSION["start"] = time();

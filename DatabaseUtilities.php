@@ -154,6 +154,33 @@ else {
 }
 }
 
+//returns list of all non-locked locations
+function getLocationList() {
+include 'DatabaseInfo.php';
+// Create Connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "SELECT Location_ID FROM Location WHERE Locked = '0'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0)  {
+	$sql_list = mysqli_fetch_all($result);
+	foreach($sql_list as $aLocation)
+	{
+		$list[] = $aLocation[0];
+	}
+	$liststring = implode(',', $list);
+	return $liststring;
+	mysqli_close($conn);
+	exit;
+}
+else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
 //$name is string with <firstname> <lastname> with a space in between
 //returns list of users with matching name (multiple users can have same name)
 function getUserIDsByName($name) {
@@ -563,7 +590,7 @@ if (mysqli_num_rows($result) > 0)  {
 }
 else {
 	mysqli_close($conn);
-	return false;
+	return -1;
 }
 }
 

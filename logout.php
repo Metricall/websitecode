@@ -16,7 +16,7 @@ session_start();
 <?php
 	session_unset();
 	session_destroy();
-	echo '<script>document.location.replace("/");</script>';
+	header("Location: metricalsite.php")
 ?>
 </font>
   </body>
