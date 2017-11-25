@@ -6,7 +6,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-$cleanuser = cleaninput($u);
+$cleanuser = filter_var($u, FILTER_SANITIZE_EMAIL);
 $cleanpass = cleaninput($p);
 $sql = "SELECT Std_ID FROM Users WHERE Email_Address = '".$cleanuser."'";
 $result = mysqli_query($conn, $sql);	
