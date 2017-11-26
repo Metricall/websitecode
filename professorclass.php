@@ -42,12 +42,14 @@ session_start();
 	<?php include 'instructormenu.php'; ?>
 	<br>
 	<?php
-		if ($_REQUEST["act"] == "session")
-			include 'session.php';
-		elseif ($_REQUEST["act"] == "report")
-			include 'report.php';
-		elseif ($_REQUEST["act"] == "edit")
-			include 'manageattendance.php';
+		if (isset($_REQUEST["act"])) {
+			if ($_REQUEST["act"] == "session")
+				include 'session.php';
+			elseif ($_REQUEST["act"] == "report")
+				include 'report.php';
+			elseif ($_REQUEST["act"] == "edit")
+				include 'manageattendance.php';
+		}
 		else
 			include 'profclassdefault.php';
 	?>

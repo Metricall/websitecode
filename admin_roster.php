@@ -9,64 +9,7 @@ session_start();
 		if ($_SESSION["role"] != "Admin")
 			header("Location: logout.php");
 	}
-	
-	function instructorlist(){
-		//by name, get userIDs -> make array. by number, make array with that number
-		$usersearchinput = cleaninput($_POST["searchvalue"]);
-		if ($_POST["typeofsearch"] == "professor") {
-			$ulist = getUserIDsByName($usersearchinput);
-			$ulist = explode(',', $ulist);
-		}
-		elseif ($_POST["typeofsearch"] == "number") {
-			$ulist[] = $usersearchinput;
-		}
-		//if potential user is professor and not locked, add to instructor list
-		foreach($ulist as $u) {
-			if(getUserRole($u) == "Professor" AND getUserLocked($u) == 0)
-				$instructors[] = $u;
-		}
-		//display instructor list and allow admin to choose (usually only will be 1 choice though)
-		if (count($instructors) == 0) {
-			echo "No professors found with that name or ID.";
-		}
-		else {
-			echo "<form action='";
-			echo htmlspecialchars($_SERVER["PHP_SELF"]);
-			echo "' method='post'>";
-			foreach($instructors as $aInstructor)
-			{
-				echo getUserFirstName($aInstructor) . " " . getUserLastName($aInstructor);
-				echo " (" . getUserEmail($aInstructor). ") &nbsp;";
-				echo "<button type='submit' value='";
-				echo $aInstructor;
-				echo "' name='profchosen'>Go!</button><br>";
-			}
-			echo "</form>";
-		}
-	}
-
-	function rosterlist(){
-		$classlist = getRosterListByInstructor($_POST["profchosen"]);
-		if (strlen($classlist) == 0) {
-			echo "Professor has no rosters yet.";
-		}
-		else {
-			$classes = explode(',', $classlist);
-			echo "<form action='";
-			echo htmlspecialchars($_SERVER["PHP_SELF"]);
-			echo "' method='post'>";
-			foreach($classes as $aClass)
-			{
-				echo "<button type='submit' value='";
-				echo $aClass;
-				echo "' name='rid'>";
-				echo getRosterCourseName($aClass);
-				echo "</button><br><br>";
-			}
-			echo "</form>";
-		}
-	}
-
+	include 'roster_functions.php';
 ?>
 <!DOCTYPE html>
 <!--admin
@@ -86,29 +29,25 @@ session_start();
 	<br>
 	<?php include 'adminmenu.php'; ?>
 	<br>
-	<script src = "roster.js"></script>
-	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-	<center>Search:
- 			<select name="typeofsearch">
-				<option value="professor">Professor</option>
-				<option value="number">User ID</option>
-			</select>
-			<input type="text" name="searchvalue">
-			<input type="submit" value="Search" />
-		</center><br>
-	</form>
 	<center>
+		<div class="form-style-heading">
+		Search for a professor to do Rosters for:
+		</div>
+	</center>
+	<?php include 'search_instructors.php'; ?>
+	<center>
+	<script src = "roster.js"></script>
 		<?php
-		if (isset($_POST["profchosen"])) {
+		if (isset($_POST["profchoice"])) {
 			echo "Roster operations for professor: ";
-			echo getUserFirstName($_POST["profchosen"])." ".getUserLastName($_POST["profchosen"])."<br><br>";
+			echo getUserFirstName($_POST["profchoice"])." ".getUserLastName($_POST["profchoice"])."<br><br>";
 			echo "<button class=\"createButton\" id=\"creatRosId\" type=\"button\" onclick=\"newRosForm();\">Create Roster</button>";
 		}
 		?>
 		<div class="form-style" id="newForm">
 			<div class="form-style-heading">New Roster Information: </div>
 			<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
-				<input type="hidden" name="profID" value="<?php echo $_POST["profchosen"]; ?>">
+				<input type="hidden" name="profID" value="<?php if(isset($_POST["profchoice"])) {echo $_POST["profchoice"];} ?>">
 				<label><span>Course Name: </span><input type="text" name="coursename"></label>
 				<label><span>Default Location: </span>
 				<select name="defaultloc">
@@ -129,30 +68,26 @@ session_start();
 	<center>
 		<table id="infoTable" class="infoTable">
 		<?php
-		if(isset($_POST["searchvalue"])) {
-			instructorlist();
-		}
-		elseif(isset($_POST["profchosen"])) {
-			echo "Professor has existing Rosters:<br><br>";
-			rosterlist();
+		if(isset($_POST["profchoice"])) {
+			echo "Existing Rosters:<br><br>";
+			rosterlist($_POST["profchoice"]);
 		}
 		elseif(isset($_POST["rid"])) {
-			echo getRosterCourseName($_POST["rid"]) . "<br>";
-			echo getRosterStudentList($_POST["rid"]) . "<br>";
-			echo getRosterInstructor($_POST["rid"]) . "<br>";
-			echo getRosterLocation($_POST["rid"]) . "<br>";
+			rosterinfo($_POST["rid"]);
 		}
 		
 		//course name needs sanitized before being used
-		if (isset($_POST["coursename"]))
-			var_dump($_POST["coursename"]);
-		echo "<br>";
-		if (isset($_POST["profID"]))
-			var_dump($_POST["profID"]);
-		echo "<br>";
-		if (isset($_POST["defaultloc"]))
-			var_dump($_POST["defaultloc"]);
-		echo "<br>";
+		if (isset($_POST["defaultloc"])) {
+			$returnedRID = newroster(cleaninput($_POST["coursename"]), $_POST["profID"], $_POST["defaultloc"]);
+			if ($returnedRID > 0) {
+				echo "New Roster Created<br><br>";
+				rosterinfo($returnedRID);
+				echo "<br>";
+				echo "put stuff here to go to adding students.";
+			}
+			elseif ($returnedRID == false)
+				echo "Failed to create roster.";
+		}
 		?>
 		</table>
 	</center>

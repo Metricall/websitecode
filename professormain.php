@@ -17,35 +17,16 @@ session_start();
 ?>
 <?php
 	include 'DatabaseUtilities.php';
-	$fn = getUserFirstName($_SESSION["instructorID"]);
-	$ln = getUserLastName($_SESSION["instructorID"]);
+	if (isset($_SESSION["instructorID"])) {
+		$fn = getUserFirstName($_SESSION["instructorID"]);
+		$ln = getUserLastName($_SESSION["instructorID"]);
+	}
 	$_SESSION["instructorName"] =  "{$fn} {$ln}";
 	
+	include 'roster_functions.php';
 	if(isset($_REQUEST["rid"])) {
 		$_SESSION["rid"] = $_REQUEST["rid"];
 		header("Location: professorclass.php");
-	}
-	
-	function rosterlist(){
-		$classlist = getRosterListByInstructor($_SESSION["instructorID"]);
-		if (strlen($classlist) == 0) {
-			echo "You do not have any classes available.  If you believe this to be an error, please contact an administrator.";
-		}
-		else {
-			$classes = explode(',', $classlist);
-			echo "<form action='";
-			echo htmlspecialchars($_SERVER["PHP_SELF"]);
-			echo "' method='post'>";
-			foreach($classes as $aClass)
-			{
-				echo "<div class = 'col-xs-12'><button type='submit' value='";
-				echo $aClass;
-				echo "' name='rid'>";
-				echo getRosterCourseName($aClass);
-				echo "</button> </div><br><br>";
-			}
-			echo "</form>";
-		}
 	}
 ?>
 <!DOCTYPE html>
@@ -68,7 +49,7 @@ session_start();
 	<div class = 'col-xs-12' align="center">
 	<h2>Your Classes</h2>
 	<h3>
-	<?php rosterlist(); ?>
+	<?php rosterlist($_SESSION["instructorID"]); ?>
 	<br><br>
 	</h3>
 	</div>

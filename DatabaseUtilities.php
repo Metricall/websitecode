@@ -411,7 +411,6 @@ if (mysqli_query($conn, $sql)) {
 }
 }
 
-
 //--------------------------------------------------------
 //GET FUNCTIONS
 //--------------------------------------------------------
@@ -482,7 +481,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
-$sql = "SELECT Roster_ID FROM Roster WHERE Instructor_ID = '".$instructorID."'";
+$sql = "SELECT Roster_ID FROM Roster WHERE Instructor_ID = '".$instructorID."' ORDER BY Course_Name;";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0)  {
 	$sql_list = mysqli_fetch_all($result);
@@ -509,7 +508,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
-$sql = "SELECT Location_ID FROM Location WHERE Locked = '0'";
+$sql = "SELECT Location_ID FROM Location WHERE Locked = '0' ORDER BY Building_Name, Room_No;";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0)  {
 	$sql_list = mysqli_fetch_all($result);
