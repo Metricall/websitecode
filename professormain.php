@@ -41,7 +41,6 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<br>
 	<?php if ($_SESSION["role"] == "Admin"){include 'adminwelcome.php';echo "<br>";} ?>
 	<?php include 'instructorwelcome.php'; ?>
 	<br>

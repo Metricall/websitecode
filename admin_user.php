@@ -3,6 +3,7 @@ session_start();
 ?>
 <?php
 	include 'LoginUtilities.php';
+	include 'DatabaseUtilities.php';
 	if (checkLogin()) {
 		//not an admin
 		if ($_SESSION["role"] != "Admin")
@@ -22,21 +23,17 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<br>
 	<?php include 'adminwelcome.php'; ?>
 	<br>
 	<?php include 'adminmenu.php'; ?>
 	<br>
+	<center>
+		<div class="form-style-heading">
+		Search for an existing user:
+		</div>
+	</center>
+	<?php include 'search_users.php'; ?>
 	<script src = "roster.js"></script>
-	<form name="form1" method="POST">
-		<center>Search:
-			<select id="myDropdown" onchange="itemSelected();">
-				<option value="user">User</option>
-			</select>
-			<input type = "text" id="searchTarget">
-			<input type="submit" value="Submit" name="submit" onclick="showSearch();">
-		</center><br>
-	</form>
 	<center>
 		<button class="createButton" id="creatRosId" type="button" onclick="newRosForm();">
 			Create User</button>
@@ -60,6 +57,12 @@ session_start();
 	</center><br>
 	<center>
 		<table id="infoTable" class="infoTable">
+		<?php
+		if(isset($_POST["userchoice"])) {
+			echo "You chose a user.";
+			echo $_POST["userchoice"];
+		}
+		?>
 		</table>
 	</center>
 	<?php include 'footer.php'; ?>
