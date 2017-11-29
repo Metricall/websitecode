@@ -26,7 +26,6 @@ if (mysqli_num_rows($result) > 0)  {
 	}
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn);
 	mysqli_close($conn);
 	return false;
 }

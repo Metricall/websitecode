@@ -72,17 +72,15 @@ session_start();
 			rosterlist($_POST["profchoice"]);
 		}
 		elseif(isset($_POST["rid"])) {
-			rosterinfo($_POST["rid"]);
+			rosterinfo($_POST["rid"], true);
 		}
 		
 		//course name needs sanitized before being used
-		if (isset($_POST["defaultloc"])) {
+		if (isset($_POST["coursename"])) {
 			$returnedRID = newroster(cleaninput($_POST["coursename"]), $_POST["profID"], $_POST["defaultloc"]);
 			if ($returnedRID > 0) {
 				echo "New Roster Created<br><br>";
-				rosterinfo($returnedRID);
-				echo "<br>";
-				echo "put stuff here to go to adding students.";
+				rosterinfo($returnedRID, true);
 			}
 			elseif ($returnedRID == false)
 				echo "Failed to create roster.";
