@@ -8,7 +8,13 @@
 	<font face="verdana">
 	<?php
 		if (isset($_SESSION["role"])) {
-			echo "-usertype-<br>-username-<br>-logout-";
+			echo "
+				<a href="adminmain.php" onmouseover = "this.style.color = 'red';"
+						onmouseout = "this.style.color = '#000080';">Aministrator</a>
+				<br>Admin: <?php echo $_SESSION["adminName"]; ?><br>
+				<a href="logout.php" onmouseover = "this.style.color = 'red';"
+						onmouseout = "this.style.color = '#000080';">Logout</a>
+			";
 		}
 	?>
 	</font>
