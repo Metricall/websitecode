@@ -1,3 +1,33 @@
+<?php
+session_start();
+?>
+<?php
+	include 'DatabaseUtilities.php';
+	include 'LoginUtilities.php';
+	if (checkLogin()) {
+		//not an admin or insturctor
+		if ($_SESSION["role"] != "Admin" AND $_SESSION["role"] != "Professor")
+			header("Location: logout.php");
+		//no roster chosen
+		elseif (!isset($_SESSION["rid"]))
+			header("Location: professormain.php");
+	}
+	$pagetype = "Professor";
+	include 'session_functions.php';
+?>
+<!DOCTYPE html>
+<!--professor
+ -->
+<html lang = "en">
+  <head>
+   <link rel = "stylesheet" type = "text/css" href = "css/bootstrap.css">
+    <link rel = "stylesheet" type = "text/css" href = "mainmetrical.css">
+    <title> Professor </title>
+    <meta charset = "utf-8">
+  </head>
+  <body>
+	<?php include 'header.php'; ?>
+	<br>
 	<div class = 'row' id = 'yourclasses'>
 	<div class = 'col-xs-5'></div>
 	<div class = 'col-xs-7'><h2>Create a Session</h2></div>
@@ -29,40 +59,12 @@
 	
 	<div align='center'>
 	<table border='1' id = 'roster'>
-  <tr>
-	<th id = 'color11'>Date</th>
-    <th id = 'color22'>Start</th>
-	<th id = 'color22'>End</th>
-    <th id = 'color11'>Location</th>
-    <th id = 'color11'>Modify</th>
-  </tr>
-  <?php
-		$sessionlist = getSessionListByRoster($_SESSION["rid"]);
-		if (strlen($sessionlist) == 0) {
-			echo "This class does not have any sessions.  Try creating some.";
-		}
-		else {
-			$sessions = explode(',', $sessionlist);
-			echo "<form action='sessionmod.php' method='get'>";
-			foreach($sessions as $aSession)
-			{
-				echo "<tr><td id = 'color11'>";
-				echo getSessionDate($aSession);
-				echo "</td><td id = 'color22'>";
-				echo getSessionStart($aSession);
-				echo "</td><td id = 'color22'>";
-				echo getSessionEnd($aSession);
-				echo "</td><td id = 'color11'>";
-				echo getLocationBuilding(getSessionLocationID($aSession));
-				echo " ";
-				echo getLocationRoom(getSessionLocationID($aSession));				
-				echo "</td><td id = 'color11'>";
-				echo "<button type='submit' value='";
-				echo $aSession;
-				echo "' name='sid'>Modify</button></td></tr>";
-			}
-			echo "</form>";
-		}
-  ?>
+	<?php 
+		if(isset($_SESSION["rid"])) 
+			sessionlist($_SESSION["rid"], true);
+	?>
 </table>
 </div>
+	<?php include 'footer.php'; ?>
+  </body>
+</html>

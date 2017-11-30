@@ -13,6 +13,7 @@ session_start();
 			header("Location: professormain.php");
 	}
 	$pagetype = "Professor";
+	include 'session_functions.php';
 ?>
 <!DOCTYPE html>
 <!--professor
@@ -27,17 +28,19 @@ session_start();
   <body>
 	<?php include 'header.php'; ?>
 	<br>
-	<?php
-		if (isset($_REQUEST["act"])) {
-			if ($_REQUEST["act"] == "session")
-				include 'session.php';
-			elseif ($_REQUEST["act"] == "report")
-				include 'report.php';
-			elseif ($_REQUEST["act"] == "edit")
-				include 'manageattendance.php';
-		}
-		else
-			include 'profclassdefault.php';
-	?>
+	<div class = 'row' id = 'yourclasses'>
+		<div class = 'col-xs-12' align='center'><h2>Choose an action.</h2></div>
+		<br>
+		<div class = 'col-xs-12' align='center'><h4>
+		Sessions:<br>Create new sessions to take attendance for this Roster.  Manage existing sessions.
+		<br><br>
+		Reports:<br>View current attendance records.
+		<br><br>
+		Manage Attendance:<br>Change excused absenses to attended.  Or remove a student from attendance if necessary.
+		<br><br>
+		</h4></div>
+	</div><br>
+
 	<?php include 'footer.php'; ?>
+  </body>
 </html>

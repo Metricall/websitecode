@@ -103,7 +103,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-$sql = "UPDATE Session SET Location_ID = '".$the_attended."' WHERE Session_ID = '".$the_Session_ID."'";
+$sql = "UPDATE Session SET Attended = '".$the_attended."' WHERE Session_ID = '".$the_Session_ID."'";
 if (mysqli_query($conn, $sql)) {
 	mysqli_close($conn);
 	return true;
@@ -350,8 +350,6 @@ if (mysqli_query($conn, $sql)) {
 }
 }
 
-//setter for biometric data field when it is added
-/*
 function setUserBiometric($userID, $the_bio){
 include 'DatabaseInfo.php';
 // Create connection
@@ -360,7 +358,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
-$sql = "UPDATE User SET Biometric = '".$the_bio."' WHERE Std_ID = '".$userID."'";
+$sql = "UPDATE User SET BioMetric = '".$the_bio."' WHERE Std_ID = '".$userID."'";
 if (mysqli_query($conn, $sql)) {
 	mysqli_close($conn);
 	return true;
@@ -369,7 +367,7 @@ if (mysqli_query($conn, $sql)) {
 	return false;
 }
 }
-*/
+
 
 /*  what is this thing?
 function UpdateInstID($the_Roster_Id, $the_Instructor_ID, $the_First_Name, $the_Last_Name){
@@ -393,7 +391,7 @@ mysqli_close($conn);
 //--------------------------------------------------------
 //ADD FUNCTIONS
 //--------------------------------------------------------
-function addNewRoster($Roster_ID, $Instructor_ID, $LocationID) {
+function addNewRoster($Roster_ID, $RosterName, $Instructor_ID, $LocationID) {
 include 'DatabaseInfo.php';
 // Create connection
 $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
@@ -401,7 +399,25 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
-$sql = "INSERT INTO Roster (Roster_ID, Course_Name, Student_List, Instructor_ID, Default_Location) VALUES ('".$Roster_ID."', '', '', '".$Instructor_ID."', '".$LocationID."')";
+$sql = "INSERT INTO Roster (Roster_ID, Course_Name, Student_List, Instructor_ID, Default_Location) VALUES ('".$Roster_ID."', '".$RosterName."', '', '".$Instructor_ID."', '".$LocationID."')";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
+function addNewSession($Session_ID, $Roster_ID, $Location_ID, $the_date, $the_start, $the_end) {
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "INSERT INTO Session (Session_ID, Roster_ID, Location_ID, Date, Start_Time, End_Time, Attended) VALUES ('".$Session_ID."', '".$Roster_ID."', '".$Location_ID."', '".$the_date."', '".$the_start."', '".$the_end."', '')";
 if (mysqli_query($conn, $sql)) {
 	mysqli_close($conn);
 	return true;
@@ -940,8 +956,6 @@ else {
 }
 }
 
-//Getter for biometric data field when it is added
-/*
 function getUserBiometric($stdID){
 include 'DatabaseInfo.php';
 // Create connection
@@ -949,13 +963,13 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }	
-$sql = "SELECT Biometric FROM Users WHERE Std_ID = '".$stdID."'";
+$sql = "SELECT BioMetric FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
     echo "Record retrived successfully<br>";
 	$bio = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
-	return $bio["Biometric"];
+	return $bio["BioMetric"];
 }
 else {
     echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
@@ -963,7 +977,7 @@ else {
 	return false;
 }
 }
-*/
+
 ?>
 
 
