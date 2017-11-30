@@ -2,6 +2,7 @@
 session_start();
 ?>
 <?php
+	include 'DatabaseUtilities.php';
 	include 'LoginUtilities.php';
 	if (checkLogin()) {
 		//not an admin or insturctor
@@ -11,13 +12,7 @@ session_start();
 		elseif (!isset($_SESSION["rid"]))
 			header("Location: professormain.php");
 	}
-?>
-<?php
-	include 'DatabaseUtilities.php';
-	
-	function sayclass(){
-		print getRosterCourseName($_SESSION["rid"]);
-	}
+	$pagetype = "Professor";
 ?>
 <!DOCTYPE html>
 <!--professor
@@ -31,14 +26,6 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<?php if ($_SESSION["role"] == "Admin"){include 'adminwelcome.php';echo "<br>";} ?>
-	<?php include 'instructorwelcome.php'; ?>
-	<div class = 'row' id = 'yourclasses'>
-	<div class = 'col-xs-12' align="center"><h2>Active Class: <?php	sayclass(); ?></h2>
-	<br>
-	</div>
-	</div>
-	<?php include 'instructormenu.php'; ?>
 	<br>
 	<?php
 		if (isset($_REQUEST["act"])) {

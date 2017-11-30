@@ -9,6 +9,7 @@ session_start();
 		if ($_SESSION["role"] != "Admin")
 			header("Location: logout.php");
 	}
+	$pagetype = "Admin";
 ?>
 <!DOCTYPE html>
 <!--admin
@@ -23,9 +24,6 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<?php include 'adminwelcome.php'; ?>
-	<br>
-	<?php include 'adminmenu.php'; ?>
 	<br>
 	<center>
 		<div class="form-style-heading">

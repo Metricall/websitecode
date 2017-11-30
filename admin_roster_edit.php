@@ -9,6 +9,8 @@ session_start();
 		if ($_SESSION["role"] != "Admin")
 			header("Location: logout.php");
 	}
+	$pagetype = "Admin";
+
 	include 'roster_functions.php';
 	if(isset($_REQUEST["roster"])){
 		$_SESSION["roster"] = $_REQUEST["roster"];
@@ -34,9 +36,6 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<?php include 'adminwelcome.php'; ?>
-	<br>
-	<?php include 'adminmenu.php'; ?>
 	<br>
 	<center>
 		<div class="form-style-heading">
