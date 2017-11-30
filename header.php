@@ -7,7 +7,7 @@
 	<div class = 'col-xs-4'>
 	<font face="verdana">
 	<?php
-		if (isset($_SESSION["role"])) {
+/*		if (isset($_SESSION["role"])) {
 			echo "
 				<a href="adminmain.php" onmouseover = "this.style.color = 'red';"
 						onmouseout = "this.style.color = '#000080';"></a<?php echo $_SESSION["role"]; ?>>
@@ -16,12 +16,20 @@
 						onmouseout = "this.style.color = '#000080';">Logout</a>
 			";
 		}
-	?>
+*/	?>
+	<a href="logout.php" onmouseover = "this.style.color = 'red';"
+						onmouseout = "this.style.color = '#000080';">Logout</a>
 	</font>
 	</div>
 	</div>
 <?php
-	if (!isset($_SESSION["role"]) OR $_SERVER["PHP_SELF"] == "/metricalsite.php"){
+	if (isset($pagetype)){
+		if ($pagetype == "Admin")
+			include 'adminmenu.php';
+		elseif ($pagetype == "Professor")
+			include 'instructormenu.php';
+	}
+	else {
 		echo "
 		<div class = 'row' id = 'taskbar'>
 		<div class = 'col-xs-1'></div>

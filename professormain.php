@@ -3,6 +3,7 @@ session_start();
 ?>
 <?php
 	include 'LoginUtilities.php';
+	include 'DatabaseUtilities.php';
 	if (checkLogin()) {
 		//not an admin or insturctor
 		if ($_SESSION["role"] != "Admin" AND $_SESSION["role"] != "Professor")
@@ -14,9 +15,8 @@ session_start();
 		elseif ($_SESSION["role"] == "Professor")
 			$_SESSION["instructorID"] = $_SESSION["uid"];
 	}
-?>
-<?php
-	include 'DatabaseUtilities.php';
+	$pagetype = "Professor";
+
 	if (isset($_SESSION["instructorID"])) {
 		$fn = getUserFirstName($_SESSION["instructorID"]);
 		$ln = getUserLastName($_SESSION["instructorID"]);
@@ -41,12 +41,9 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<?php if ($_SESSION["role"] == "Admin"){include 'adminwelcome.php';echo "<br>";} ?>
-	<?php include 'instructorwelcome.php'; ?>
-	<br>
 	<div class = 'row' id = 'yourclasses'>
 	<div class = 'col-xs-12' align="center">
-	<h2>Your Classes</h2>
+	<h2>Your Rosters:</h2>
 	<h3>
 	<?php rosterlist($_SESSION["instructorID"]); ?>
 	<br><br>

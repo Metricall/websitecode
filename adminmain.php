@@ -11,8 +11,8 @@ session_start();
 		elseif($_SESSION["role"] == "Admin")
 			$_SESSION["adminID"] = $_SESSION["uid"];
 	}
-?>
-<?php
+	$pagetype = "Admin";
+
 	include 'DatabaseUtilities.php';
 	$fn = getUserFirstName($_SESSION["adminID"]);
 	$ln = getUserLastName($_SESSION["adminID"]);
@@ -31,9 +31,6 @@ session_start();
   </head>
   <body>
 	<?php include 'header.php'; ?>
-	<?php include 'adminwelcome.php'; ?>
-	<br>
-	<?php include 'adminmenu.php'; ?>
 	<br><br><br><br><br><br>
 	<?php include 'footer.php'; ?>
   </body>
