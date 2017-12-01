@@ -8,17 +8,19 @@
 	<font face="verdana">
 	<?php
 		if (isset($_SESSION["role"])) {
-			echo "
+/*			echo "
 				<a href='adminmain.php' onmouseover = "this.style.color = 'red';"
 						onmouseout = \"this.style.color = '#000080';\"></a<?php echo $_SESSION[\"role\"]; ?>>
 				<br><?php echo $_SESSION["adminName"]; ?><br>
 				<a href='logout.php' onmouseover = 'this.style.color = 'red';'
 						onmouseout = "this.style.color = '#000080';">Logout</a>
 			";
+*/
+			echo "<a href='logout.php' onmouseover = \"this.style.color = 'red';\"
+						onmouseout = \"this.style.color = '#000080';\">Logout</a>
+				";
 		}
 	?>
-	<a href="logout.php" onmouseover = "this.style.color = 'red';"
-						onmouseout = "this.style.color = '#000080';">Logout</a>
 	</font>
 	</div>
 	</div>
