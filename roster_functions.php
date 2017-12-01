@@ -54,13 +54,10 @@
 		}
 		else {
 			$rosterarr = explode(',', $rosterlist);
-//			$AlreadyListed = false;
 			foreach ($rosterarr as $aStudent) {
 				if ($aStudent == $the_user)
 					return false;
-//					$AlreadyListed = true;
 			}
-//			if (!$AlreadyListed)
 				$rosterarr[] = $the_user;
 			sort($rosterarr);
 		}
