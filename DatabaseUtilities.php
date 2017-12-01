@@ -435,8 +435,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
-$sql = "INSERT INTO Users (Std_ID, Fname, Lname, Email_Address, Role, Password, BioMetric, Locked) VALUES 
-('".$Std_ID."', '".$Fname."', '".$Lname."', '".$Email_Address."', '".$Role."', '".$BioMetric."', '".$Locked."')";
+$sql = "INSERT INTO Users (Std_ID, Fname, Lname, Email_Address, Role, Password, BioMetric, Locked) VALUES ('".$Std_ID."', '".$Fname."', '".$Lname."', '".$Email_Address."', '".$Role."', '".$BioMetric."', '".$Locked."')";
 if (mysqli_query($conn, $sql)) {
 	mysqli_close($conn);
 	return true;
