@@ -35,6 +35,7 @@ session_start();
 	<center>
 	<script src = "roster.js"></script>
 		<?php
+		//show create roster button if a professor is chosen
 		if (isset($_POST["profchoice"])) {
 			echo "Roster operations for professor: ";
 			echo getUserFirstName($_POST["profchoice"])." ".getUserLastName($_POST["profchoice"])."<br><br>";
@@ -49,6 +50,7 @@ session_start();
 				<label><span>Default Location: </span>
 				<select name="defaultloc">
 				<?php
+					//location list drop down
 					$locations=getLocationList();
 					$locations=explode(',',$locations);
 					foreach($locations as $l) {
@@ -65,15 +67,18 @@ session_start();
 	<center>
 		<table id="infoTable" class="infoTable">
 		<?php
+		//if professor chosen, show existing rosters
 		if(isset($_POST["profchoice"])) {
 			echo "Existing Rosters:<br><br>";
 			rosterlist($_POST["profchoice"]);
 		}
+		//show roster info with modify link
 		elseif(isset($_POST["rid"])) {
 			rosterinfo($_POST["rid"], true);
 		}
 		
-		//course name needs sanitized before being used
+		//if create form used, try to make a new roster
+		//on success, show info and give link to modify (for adding students)
 		if (isset($_POST["coursename"])) {
 			$returnedRID = newroster(cleaninput($_POST["coursename"]), $_POST["profID"], $_POST["defaultloc"]);
 			if ($returnedRID > 0) {

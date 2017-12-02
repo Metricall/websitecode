@@ -16,7 +16,8 @@ session_start();
 			$_SESSION["instructorID"] = $_SESSION["uid"];
 	}
 	$pagetype = "Professor";
-
+	
+	//add professor name to PHP session
 	if (isset($_SESSION["instructorID"])) {
 		$fn = getUserFirstName($_SESSION["instructorID"]);
 		$ln = getUserLastName($_SESSION["instructorID"]);
@@ -24,8 +25,9 @@ session_start();
 	$_SESSION["instructorName"] =  "{$fn} {$ln}";
 	
 	include 'roster_functions.php';
-	if(isset($_REQUEST["rid"])) {
-		$_SESSION["rid"] = $_REQUEST["rid"];
+	//if upon choosing a roster, save to PHP session and redirect
+	if(isset($_POST["rid"])) {
+		$_SESSION["rid"] = $_POST["rid"];
 		header("Location: professorclass.php");
 	}
 ?>

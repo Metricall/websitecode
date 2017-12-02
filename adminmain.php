@@ -14,6 +14,7 @@ session_start();
 	$pagetype = "Admin";
 
 	include 'DatabaseUtilities.php';
+	//add user's name to the PHP session
 	$fn = getUserFirstName($_SESSION["adminID"]);
 	$ln = getUserLastName($_SESSION["adminID"]);
 	$_SESSION["adminName"] =  "{$fn} {$ln}";

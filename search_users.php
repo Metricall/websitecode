@@ -20,6 +20,7 @@
 	</center>
 <?php
 	function userlist($stype, $svalue){
+		//by name, get userIDs -> make array. by number, make array with that number
 		$cleanvalue = cleaninput($svalue);
 		if ($stype == "anyuser") {
 			$ulist = getUserIDsByName($cleanvalue);
@@ -28,7 +29,7 @@
 		elseif ($stype == "number") {
 			$ulist[] = $cleanvalue;
 		}
-		//if potential users are professor and not locked, add to instructor list
+		//only include users that are not locked
 		$users = array();
 		foreach($ulist as $u) {
 			if(getUserLocked($u) == 0)

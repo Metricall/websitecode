@@ -1,6 +1,9 @@
-<?php	
+<?php
+	//generate session list for given roster
+	//$modify is true, then show modify button
 	function sessionlist($the_roster, $modify){
 		$sessionlist = getSessionListByRoster($the_roster);
+		//only generate if there are sessions to show
 		if (strlen($sessionlist) == 0) {
 			echo "This class does not have any sessions.  Try creating some.";
 		}
@@ -45,23 +48,8 @@
 		}
 	}
 	
-/*	function rosterinfo($rostID, $edit_link) {
-		$the_instrucID = getRosterInstructor($rostID);
-		$the_locID = getRosterLocation($rostID);
-		echo getRosterCourseName($rostID)."<br>";
-		echo getUserFirstName($the_instrucID)." ".getUserLastName($the_instrucID)."<br>";
-		echo getLocationBuilding($the_locID)." ".getLocationRoom($the_locID)."<br>";
-		echo "<br>Student List: <br>";
-		echo showstudentlist($rostID, false) . "<br>";
-		if ($edit_link) {
-			echo "<br>";
-			echo "<a href=\"admin_roster_edit.php?roster=";
-			echo $rostID;
-			echo "\">Edit Roster</a><br>";
-		}
-	}
-*/	
-
+	//adds session to database
+	//generates a unique ID for it based on time, returns that ID
 	function newsession($roster, $location, $date, $start, $end){
 		$newSID = date("YmdHis");
 		//set default time zone
@@ -114,11 +102,14 @@
 			return false;
 	}
 	
+	//add user with given userID to session attendance
 	function addstudent($the_session, $the_user) {
 		$attendlist = getSessionAttended($the_session);
+		//first person to attend, just add
 		if (strlen($attendlist) == 0) {
 			$attendarr[] = $the_user;
 		}
+		//session attendance not empty, check if user is already attended first
 		else {
 			$attendarr = explode(',', $attendlist);
 			foreach ($attendarr as $aStudent) {
@@ -128,7 +119,6 @@
 			$attendarr[] = $the_user;
 			sort($attendarr);
 		}
-		
 		//construct new string with current student added
 		$attendlist = implode(',', $attendarr);
 		//replace attended for this session with new string containing this student
@@ -136,9 +126,11 @@
 		return $setsuccess;
 	}
 	
+	//remove user with given userID from session attendance
 	function removestudent($the_session, $the_user) {
 		$attendlist = getSessionAttended($the_session);
 		$attendarr = explode(',', $attendlist);
+		//search for user in session attendance, remove if found
 		if (($key = array_search($the_user, $attendarr)) !== false) {
 			unset($attendarr[$key]);
 		}
@@ -146,24 +138,32 @@
 		$setsuccess = setSessionAttended($the_session, $attendlist);
 		return $setsuccess;
 	}
-
+	
+	//display student list with attendance for session
+	//$attend_change is true, then show buttons to allow attendance changing
 	function showstudentlist($the_session, $attend_change){
+		//get full list of students in roster that session is part of
 		$rosterlist = getRosterStudentList(getSessionRosterID($the_session));
+		//if roster has no students, then nothing to show
 		if (strlen($rosterlist) == 0) {
 			echo "Roster has no students.";
 		}
 		else {
+			//get session attendance (make roster students, and attended students into arrays)
 			$students = explode(',', $rosterlist);
 			$attendlist = getSessionAttended($the_session);
 			$attendarr = explode(',', $attendlist);
-
+			
 			echo "<form action='";
 			echo htmlspecialchars($_SERVER["PHP_SELF"]);
 			echo "' method='post'>";
+			//for each student in the roster
 			foreach($students as $aStudent)
 			{
 				echo getUserFirstName($aStudent) . " " . getUserLastName($aStudent);
 				echo " (" . getUserEmail($aStudent). ") &nbsp;";
+				//check if student is in the attendance list
+				//show attendance status (and change status button if appropriate)
 				if (($found = array_search($aStudent, $attendarr)) !== false) {
 					echo "Status: Attended &nbsp;";
 					if($attend_change) {

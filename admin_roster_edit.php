@@ -12,10 +12,12 @@ session_start();
 	$pagetype = "Admin";
 
 	include 'roster_functions.php';
+	//set roster to PHP session and refresh page
 	if(isset($_REQUEST["roster"])){
 		$_SESSION["roster"] = $_REQUEST["roster"];
 		header("Location: admin_roster_edit.php");
 	}
+	//if no active roster, redirect back to choose roster
 	if(!isset($_SESSION["roster"])){
 		header("Location: admin_roster.php");
 	}
@@ -48,6 +50,7 @@ session_start();
 	<center>
 		<table id="infoTable" class="infoTable">
 		<?php
+		//searched for and found user to add
 		if(isset($_POST["userchoice"])) {
 			$addsuccess = addstudent($currentroster, $_POST["userchoice"]);
 			if($addsuccess){
@@ -57,6 +60,7 @@ session_start();
 				echo "Failure. Student could not be added to roster.<br><br>";
 			}
 		}
+		//selected an existing user in roster to remove
 		if(isset($_POST["removeuid"])) {
 			$removesuccess = removestudent($currentroster, $_POST["removeuid"]);
 			if($removesuccess){

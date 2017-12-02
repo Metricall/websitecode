@@ -10,7 +10,8 @@ session_start();
 			header("Location: logout.php");
 	}
 	$pagetype = "Admin";
-
+	
+	//if professor chosen, put them in PHP session and redirect to professor pages
 	if(isset($_POST["profchoice"])) {
 		$_SESSION["instructorID"] = $_POST["profchoice"];
 		header("Location: professormain.php");

@@ -1,4 +1,5 @@
 <?php
+	//show roster name if one is chosen
 	function sayclass(){
 		if (isset($_SESSION["rid"]))
 			print getRosterCourseName($_SESSION["rid"]);
