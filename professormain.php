@@ -30,6 +30,11 @@ session_start();
 		$_SESSION["rid"] = $_POST["rid"];
 		header("Location: professorclass.php");
 	}
+	
+	//clear session in case of switching rosters
+	if(isset($_SESSION["sid"])) {
+		unset($_SESSION["sid"]);
+	}
 ?>
 <!DOCTYPE html>
 <!--professor

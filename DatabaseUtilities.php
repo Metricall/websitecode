@@ -456,7 +456,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
-$sql = "SELECT Email_Address from Users WHERE Email_Address = '".$the_email"'";
+$sql = "SELECT Email_Address FROM Users WHERE Email_Address = '".$the_email."'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
 	mysqli_close($conn);
@@ -507,7 +507,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }	
-$sql = "SELECT Session_ID FROM Session WHERE Roster_ID = '".$rosterID."'";
+$sql = "SELECT Session_ID FROM Session WHERE Roster_ID = '".$rosterID."' ORDER BY Date, Start_Time;";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
 	$sql_list = mysqli_fetch_all($result);

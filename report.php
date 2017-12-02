@@ -13,7 +13,7 @@ session_start();
 			header("Location: professormain.php");
 	}
 	$pagetype = "Professor";
-	include 'session_functions.php';
+	include 'report_functions.php';
 ?>
 <!DOCTYPE html>
 <!--professor
@@ -53,20 +53,8 @@ session_start();
 	<div class = 'col-xs-3'><input type = 'submit' id = 'submitform' value = 'Create'></div>
 	</div><br><br><br>
 	
-	<table border="1" id = 'roster'>
-  <tr>
-    <th id = 'color11'>Report ID</th>
-    <th id = 'color22'>Report Name</th>
-	<th id = 'color11'>From Date</th>
-    <th id = 'color22'>To Date</th>
-  </tr>
-  <tr>
-	<td id = 'color11'>11111</td>
-	<td id = 'color22'>Test # 1</td>
-	<td id = 'color11'>March 21, 2018</td>
-		<td id = 'color11'>June 21, 2018</td>
+	<?php reportgen($_SESSION["rid"], true, "2017-11-17", "2017-11-20"); ?>
 
-</table>
 	<?php include 'footer.php'; ?>
   </body>
 </html>
