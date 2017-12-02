@@ -50,7 +50,8 @@ session_start();
 				<div class = 'col-xs-12' align='center'><h2>Choose a Session to modify attendance:</h2></div>
 				</div><br>
 				";
-			sessionlist($_SESSION["rid"], true);
+			if(isset($_SESSION["rid"])
+				sessionlist($_SESSION["rid"], true);
 		}
 		
 		//$_POST["markabsent"] is userID of student to remove from attendance

@@ -1005,13 +1005,11 @@ if (!$conn) {
 $sql = "SELECT BioMetric FROM Users WHERE Std_ID = '".$stdID."'";
 $result = mysqli_query($conn, $sql);	
 if (mysqli_num_rows($result) > 0)  {
-    echo "Record retrived successfully<br>";
 	$bio = mysqli_fetch_assoc($result);
 	mysqli_close($conn);
 	return $bio["BioMetric"];
 }
 else {
-    echo "Error retreiving record: " . mysqli_error($conn) . "<br>";
 	mysqli_close($conn);
 	return false;
 }
