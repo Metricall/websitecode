@@ -26,11 +26,11 @@
 			foreach($sessions as $aSession)
 			{
 				echo "<tr><td id = 'color11'>";
-				echo getSessionDate($aSession);
+				echo date("n/j/Y", strtotime(getSessionDate($aSession)));
 				echo "</td><td id = 'color22'>";
-				echo getSessionStart($aSession);
+				echo date("g:i A", strtotime(getSessionStart($aSession)));
 				echo "</td><td id = 'color22'>";
-				echo getSessionEnd($aSession);
+				echo date("g:i A", strtotime(getSessionEnd($aSession)));
 				echo "</td><td id = 'color11'>";
 				echo getLocationBuilding(getSessionLocationID($aSession));
 				echo " ";
@@ -56,38 +56,45 @@
 		date_default_timezone_set("America/Los_Angeles");
 		//date validation
 		if (($vDate = strtotime($date)) === false){
-			$message = "Error: ($date) not valid as Date.";
+			$message = "Error: ($date) is not a valid Date.";
 			echo "<script type='text/javascript'>alert('$message');</script>";
 			return false;
 		}
 		if (($vStart = strtotime($start)) === false){
-			$message = "Error: ($start) not valid as Start Time.";
+			$message = "Error: ($start) is not a valid Start Time.";
 			echo "<script type='text/javascript'>alert('$message');</script>";
 			return false;
 		}
 		if (($vEnd = strtotime($end)) === false){
-			$message = "Error: ($end) not valid as End Time.";
+			$message = "Error: ($end) is not a valid End Time.";
 			echo "<script type='text/javascript'>alert('$message');</script>";
 			return false;
 		}
 		//check end time is not before start time
-		if ($vStart <= $vEnd){
+		if ($vStart >= $vEnd){
 			$message = "Error: End Time ($end) must be after Start Time ($start).";
 			echo "<script type='text/javascript'>alert('$message');</script>";
 			return false;
 		}
+		//convert date/time to database stored format
+		$vDate = date("Y-m-d", $vDate);
+		$vStart = date("H:i:s", $vStart);
+		$vEnd = date("H:i:s", $vEnd);
 		//check no overlap with sessions at the same location
 		$existingsessions = getSessionListByLoc($location);
 		if ($existingsessions != false){
 			$SessionList = explode(',', $existingsessions);
 			foreach ($SessionList as $ThisSession) {
 				if (getSessionDate($ThisSession) == $vDate) {
-					if ( $vStart >= getSessionStart($ThisSession) AND $vStart <= getSessionEnd($ThisSession)) {
+					$sStart = getSessionStart($ThisSession);
+					$sEnd = getSessionEnd($ThisSession);
+					//if intended start or end time is within any existing session there is overlap
+					if ( $vStart >= $sStart AND $vStart <= $sEnd) {
 						$message = "Error: There is already a session at that time for that location.";
 						echo "<script type='text/javascript'>alert('$message');</script>";
 						return false;
 					}
-					if ( $vEnd >= getSessionStart($ThisSession) AND $vEnd <= getSessionEnd($ThisSession)) {
+					if ( $vEnd >= $sStart AND $vEnd <= $sEnd) {
 						$message = "Error: There is already a session at that time for that location.";
 						echo "<script type='text/javascript'>alert('$message');</script>";
 						return false;

@@ -50,7 +50,7 @@ session_start();
 				<div class = 'col-xs-12' align='center'><h2>Choose a Session to modify attendance:</h2></div>
 				</div><br>
 				";
-			if(isset($_SESSION["rid"])
+			if(isset($_SESSION["rid"]))
 				sessionlist($_SESSION["rid"], true);
 		}
 		
@@ -77,11 +77,12 @@ session_start();
 				</div><br>
 				";
 			//show session time info
-			echo getSessionDate($_SESSION["sid"])."<br>";
-			echo getSessionStart($_SESSION["sid"])." to ".getSessionEnd($_SESSION["sid"]);
+			echo "<h4>".date("n/j/Y", strtotime(getSessionDate($_SESSION["sid"])))."<br>";
+			echo date("g:i A", strtotime(getSessionStart($_SESSION["sid"])))." to ";
+			echo date("g:i A", strtotime(getSessionEnd($_SESSION["sid"])))."</h4>";
 			//link to clear session and return to session list
-			echo "<br><br><a href=\"".htmlspecialchars($_SERVER["PHP_SELF"])."?act=clearsession\">Click here when done.</a>";
-			echo "<br><br> Student List:<br><br>";
+			echo "<a href=\"".htmlspecialchars($_SERVER["PHP_SELF"])."?act=clearsession\">Click here when done.</a>";
+			echo "<br><br><h2>Student List:</h2>";
 			//generate student list
 			showstudentlist($_SESSION["sid"], true);
 		}

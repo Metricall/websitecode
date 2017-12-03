@@ -2,7 +2,7 @@
 	function buildsessionlist($roster, $useall, $start, $end, &$sessionlist) {
 		$allsessions = getSessionListByRoster($roster);
 		if (strlen($allsessions) == 0) {
-			echo "Roster has no sessions.";
+			echo "<script type='text/javascript'>alert('Roster has no sessions.');</script>";
 			return false;
 		}
 		
@@ -17,12 +17,12 @@
 			date_default_timezone_set("America/Los_Angeles");
 			//date validation
 			if (($vStart = strtotime($start)) === false){
-				$message = "Error: ($start) not valid as Date.";
+				$message = "Error: ($start) is not a valid date.";
 				echo "<script type='text/javascript'>alert('$message');</script>";
 				return false;
 			}
 			if (($vEnd = strtotime($end)) === false){
-				$message = "Error: ($end) not valid as Date.";
+				$message = "Error: ($end) is not a valid date.";
 				echo "<script type='text/javascript'>alert('$message');</script>";
 				return false;
 			}
@@ -38,7 +38,7 @@
 			if(count($sessionlist) > 0)
 				return true;
 			else {
-				echo "Roster has no sessions in that date range.";
+				echo "<script type='text/javascript'>alert('Roster has no sessions in that date range.');</script>";
 				return false;
 			}
 		}
@@ -74,7 +74,7 @@
 		";
 		foreach ($sessionlist as $aSession) {
 			echo "<th align='center'>";
-			echo getSessionDate($aSession);
+			echo date("n/j/Y", strtotime(getSessionDate($aSession)));
 			echo "</th>";
 		}
 		echo "<th align='center'>Total</th></tr>";
@@ -102,7 +102,7 @@
 		//check for users and build user list
 		$userlist = getRosterStudentList($rosterID);
 		if (strlen($userlist) == 0) {
-			echo "Roster has no students.";
+			echo "<script type='text/javascript'>alert('Roster has no students.');</script>";
 			return false;
 		}
 		else
