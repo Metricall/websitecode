@@ -51,7 +51,7 @@ if (isset($_POST["userID"])){ //If it is the first time, it does nothing
 				<select name="rolesearch" class="input-field">
 				<option value="Student">Student</option>
 				<option value="Professor">Professor</option>
-				<option value="Administrator">Administrator</option>
+				<option value="Admin">Admin</option>
 			    </select></label>
 				<label><span>Password: </span><input type="Password" class="input-field" name="password1" value="" /></label>
 				<label><span>Confirm Password: </span><input type="Password" class="input-field" name="password2" value="" /></label>
