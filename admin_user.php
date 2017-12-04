@@ -51,29 +51,15 @@ if (isset($_POST["userID"])){ //If it is the first time, it does nothing
 				<select name="rolesearch" class="input-field">
 				<option value="Student">Student</option>
 				<option value="Professor">Professor</option>
-				<option value="Admin">Administrator</option>
+				<option value="Administrator">Administrator</option>
 			    </select></label>
 				<label><span>Password: </span><input type="Password" class="input-field" name="password1" value="" /></label>
 				<label><span>Confirm Password: </span><input type="Password" class="input-field" name="password2" value="" /></label>
-				<!--admin
-
-				<script type="text/javascript">
-					//	function Validate() {
-					//		var confirmPassword1 = document.getElementById("password1").value;
-					//		var confirmPassword2 = document.getElementById("password2").value;
-					//		if (confirmPassword1 != confirmPassword2) {
-					//			alert("Passwords do not match.");
-					//			return false;
-					//		}
-					//		return true;
-						//}
-				//</script>
-				 -->
 				<label><span>Email: </span><input type="text" class="input-field" name="email" value="" /></label>
 				<label><span>FingerPrint File #: </span><input type="text" class="input-field" name="finger" value="" /></label>
 				<label><span>Active: </span><select type="text" class="select-field" name="active" value="" />
-					<option value="act">Active</option>
-					<option value="inAct">Inactive</option>
+					<option value="Active">Active</option>
+					<option value="Inactive">Inactive</option>
 				</select></label>
 				<label><span>&nbsp;</span><input type="submit" Name = "Submit_New_User" value="Submit"></label>
 			</form>
@@ -99,15 +85,30 @@ $the_password = $_POST['password1'];
 $confirm_password = $_POST['password2'];
 $the_email = $_POST['email'];
 $the_active = $_POST['active'];
-$the_fingerprint = $_POST['finger'];
+$the_fingerprint_code = $_POST['finger'];
 
 if ($the_active == "Active") {
-$the_active = 0;
+	$the_active = 0;
 }
-else $the_active = 1;
+else  {
+	$the_active = 1;
+}
+if (!filter_var($the_email, FILTER_VALIDATE_EMAIL)) {
+  echo '<script type="text/javascript">alert("ERROR: Invalid email format"); </script>';
+  return false;
+}
 
-if (checkIfEmailExists($the_email) == TRUE) {
+$cleanEmail = filter_var($the_email, FILTER_VALIDATE_EMAIL);
+if (checkIfEmailExists($cleanEmail) == TRUE) {
 	echo '<script type="text/javascript">alert("ERROR: Email Already Exists"); </script>';
+	return false;
+}
+else {
+	
+}
+$cleanUserID = cleaninput($the_UserID);
+if (checkIfUserIDExists($cleanUserID) == TRUE) {
+	echo '<script type="text/javascript">alert("ERROR: User ID already Exists"); </script>';
 	return false;
 }
 
@@ -115,9 +116,21 @@ if ($the_password != $confirm_password) {
 	echo '<script type="text/javascript">alert("ERROR: Passwords Dont Match"); </script>';
 	return false;
 }
+$file = "fingerlog" . $the_fingerprint_code . ".txt";
+	if(file_exists($file)) {
+		$fingerprint_value = file_get_contents($file);
+		unlink($file);
+	}
+	else {
+		echo '<script type="text/javascript">alert("ERROR: Could Not find Fingerprint file"); </script>';
+	return false;
+	}
 
-
-addNewUser($the_UserID, $the_fName, $the_lName, $the_email, $the_UserRole, $the_password, $the_fingerprint, $the_active);
+$cleanPassword = cleaninput($the_password);
+$cleanconfirmPassword = cleaninput($confirm_password);
+$cleanfName = cleaninput($the_fName);
+$cleanlName = cleaninput($the_lName);
+addNewUser($cleanUserID, $cleanfName, $cleanlName, $cleanEmail, $the_UserRole, $cleanPassword, $fingerprint_value, $the_active);
 }
 
 ?>
