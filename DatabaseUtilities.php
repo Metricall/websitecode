@@ -435,7 +435,7 @@ $conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
-$sql = "INSERT INTO Users (Std_ID, Fname, Lname, Email_Address, Role, Password, BioMetric, Locked) VALUES ('".$Std_ID."', '".$Fname."', '".$Lname."', '".$Email_Address."', '".$Role."', '".$BioMetric."', '".$Locked."')";
+$sql = "INSERT INTO Users (Std_ID, Fname, Lname, Email_Address, Role, Password, BioMetric, Locked) VALUES ('".$Std_ID."', '".$Fname."', '".$Lname."', '".$Email_Address."', '".$Role."', '".$Password."', '".$BioMetric."', '".$Locked."')";
 if (mysqli_query($conn, $sql)) {
 	mysqli_close($conn);
 	return true;
@@ -457,6 +457,25 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error() . "<br>");
 }
 $sql = "SELECT Email_Address FROM Users WHERE Email_Address = '".$the_email."'";
+$result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+	}
+}
+
+function checkIfUserIDExists ($the_ID) {
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "SELECT Std_ID FROM Users WHERE Std_ID = '".$the_ID."'";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
 	mysqli_close($conn);
@@ -1016,18 +1035,3 @@ else {
 }
 
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
