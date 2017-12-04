@@ -11,6 +11,10 @@ session_start();
 	}
 	$pagetype = "Admin";
 	
+	//if admin has a roster chosen, clear roster since likely switching to new professor
+	if(isset($_SESSION["rid"])) {
+		unset($_SESSION["rid"]);
+	}
 	//if professor chosen, put them in PHP session and redirect to professor pages
 	if(isset($_POST["profchoice"])) {
 		$_SESSION["instructorID"] = $_POST["profchoice"];
