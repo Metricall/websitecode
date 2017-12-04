@@ -6,18 +6,29 @@
 	</a>
 	<div class = 'col-xs-4'>
 	<font face="verdana">
-	<?php
+	<?php		
 		if (isset($_SESSION["role"])) {
-/*			echo "
-				<a href='adminmain.php' onmouseover = "this.style.color = 'red';"
-						onmouseout = \"this.style.color = '#000080';\"></a<?php echo $_SESSION[\"role\"]; ?>>
-				<br><?php echo $_SESSION["adminName"]; ?><br>
-				<a href='logout.php' onmouseover = 'this.style.color = 'red';'
-						onmouseout = "this.style.color = '#000080';">Logout</a>
-			";
-*/
-			echo "<a href='logout.php' onmouseover = \"this.style.color = 'red';\"
-						onmouseout = \"this.style.color = '#000080';\">Logout</a>
+			$user_role = $_SESSION["role"];
+			$user_name = $_SESSION["adminName"];
+			$user_prof = $_SESSION["instructorName"];
+
+			if($user_role == "Admin"){
+				echo   "
+					<a href='adminmain.php' style=\"color:#000080;\" onmouseover = \"this.style.color = 'red';\"
+						onmouseout = \"this.style.color = '#000080';\"> $user_role </a>
+					<br> $user_name <br>
+				";
+			}
+			else {
+				echo   "
+					<a href='professormain.php' style=\"color:#000080;\" onmouseover = \"this.style.color = 'red';\"
+						onmouseout = \"this.s<tyle.color = '#000080';\"> $user_role </a>
+					<br> $user_prof <br>
+				";
+			}
+			echo   "
+				<a href='logout.php' style='color:#000080;' onmouseover = \"this.style.color = 'red';\"
+					onmouseout = \"this.style.color = '#000080';\">Logout</a>
 				";
 		}
 	?>
