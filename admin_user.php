@@ -22,12 +22,6 @@ session_start();
     <title> Admin-User </title>
     <meta charset = "utf-8">
   </head>
-   <?php
-  
-if (isset($_POST["userID"])){ //If it is the first time, it does nothing   
-  validateInputForAddingUser();
-}
-?>
   <body>
 	<?php include 'header.php'; ?>
 	<br>
@@ -62,6 +56,9 @@ if (isset($_POST["userID"])){ //If it is the first time, it does nothing
 					<option value="Inactive">Inactive</option>
 				</select></label>
 				<label><span>&nbsp;</span><input type="submit" Name = "Submit_New_User" value="Submit"></label>
+				Requirements:<br>
+				Names cannot have spaces.  Any spaces will be removed.<br>
+				You must first have a fingerprint scanned to create an account<br>
 			</form>
 		</div>
 	</center><br>
@@ -87,35 +84,24 @@ $the_email = $_POST['email'];
 $the_active = $_POST['active'];
 $the_fingerprint_code = $_POST['finger'];
 
-$cleanfName = cleaninput($the_fName);
-$cleanlName = cleaninput($the_lName);
-if (strlen($cleanfName) < 1){
-	echo '<script type="text/javascript">alert("ERROR: No First Name was entered."); </script>';
-	return false;
-}
-if (strlen($cleanlName) < 1){
-	echo '<script type="text/javascript">alert("ERROR: No Last Name was entered."); </script>';
-	return false;
-}
-
-if (!filter_var($the_email, FILTER_VALIDATE_EMAIL)) {
-  echo '<script type="text/javascript">alert("ERROR: Invalid email format"); </script>';
-  return false;
-}
-
-$cleanEmail = filter_var($the_email, FILTER_VALIDATE_EMAIL);
-if (checkIfEmailExists($cleanEmail) == TRUE) {
-	echo '<script type="text/javascript">alert("ERROR: Email Already Exists"); </script>';
-	return false;
-}
-
-$cleanUserID = filter_var($the_UserID, FILTER_VALIDATE_INT, array("options" => array("min_range"=>0, "max_range"=>999999999)));
-if (!$cleanUserID){
-	echo '<script type="text/javascript">alert("ERROR: No User ID was entered."); </script>';
+$cleanUserID = filter_var($the_UserID, FILTER_VALIDATE_INT, array("options" => array("min_range"=>1, "max_range"=>999999999)));
+if ($cleanUserID === false){
+	echo '<script type="text/javascript">alert("ERROR: Invalid User ID. (Must be 1-999999999, no leading zeros.)"); </script>';
 	return false;
 }
 elseif (checkIfUserIDExists($cleanUserID) == TRUE) {
 	echo '<script type="text/javascript">alert("ERROR: User ID already Exists"); </script>';
+	return false;
+}
+
+$cleanfName = preg_replace('/\s/', '', cleaninput($the_fName));
+$cleanlName = preg_replace('/\s/', '', cleaninput($the_lName));
+if (strlen($cleanfName) < 1 OR strlen($cleanfName) > 16){
+	echo '<script type="text/javascript">alert("ERROR: First Name must be 1-16 characters."); </script>';
+	return false;
+}
+if (strlen($cleanlName) < 1 OR strlen($cleanlName) > 16){
+	echo '<script type="text/javascript">alert("ERROR: Last Name must be 1-16 characters."); </script>';
 	return false;
 }
 
@@ -124,8 +110,22 @@ if ($the_password != $confirm_password) {
 	return false;
 }
 $cleanPassword = cleaninput($the_password);
-if (strlen($cleanPassword) < 6){
-	echo '<script type="text/javascript">alert("ERROR: Password length is too short."); </script>';
+if (strlen($cleanPassword) < 6 OR strlen($cleanPassword) > 20 ){
+	echo '<script type="text/javascript">alert("ERROR: Password length must be 6-20 characters."); </script>';
+	return false;
+}
+
+$cleanEmail = filter_var($the_email, FILTER_VALIDATE_EMAIL);
+if ($cleanEmail === false) {
+  echo '<script type="text/javascript">alert("ERROR: Invalid email format."); </script>';
+  return false;
+}
+elseif (strlen($cleanEmail) > 30) {
+	echo '<script type="text/javascript">alert("ERROR: Email can only be up to 30 characters."); </script>';
+	return false;	
+}	
+elseif (checkIfEmailExists($cleanEmail) == TRUE) {
+	echo '<script type="text/javascript">alert("ERROR: Email Already Exists."); </script>';
 	return false;
 }
 
@@ -146,10 +146,26 @@ else  {
 	$the_active = 1;
 }
 
-addNewUser($cleanUserID, $cleanfName, $cleanlName, $cleanEmail, $the_UserRole, $cleanPassword, $fingerprint_value, $the_active);
+$addsuccess = addNewUser($cleanUserID, $cleanfName, $cleanlName, $cleanEmail, $the_UserRole, $cleanPassword, $fingerprint_value, $the_active);
+if ($addsuccess)
+	return $cleanUserID;
+else
+	return false;
 }
 
 ?>
+	<center>
+		<table id="infoTable" class="infoTable">
+		<?php
+			if (isset($_POST["userID"])){ //If it is the first time, it does nothing   
+				$newID = validateInputForAddingUser();
+				if($newID !== false) {
+					echo "Account Created for ".getUserFirstName($newID)." ".getUserLastName($newID).".<br>";
+				}
+			}
+		?>
+		</table>
+	</center>
 <?php include 'footer.php'; ?>
   </body>
 </html>

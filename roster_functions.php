@@ -43,6 +43,10 @@
 	//generates a unique ID for it based on time, returns that ID
 	function newroster($name, $instructor, $location){
 		$newRID = date("YmdHis");
+		if(strlen($name) < 1 or strlen($name) > 30) {
+			echo '<script type="text/javascript">alert("Error: Name must be 1-30 characters long."); </script>';
+			return false;
+		}
 		if(addNewRoster($newRID, $name, $instructor, $location)) {
 			return $newRID;
 		}
