@@ -87,12 +87,17 @@ $the_email = $_POST['email'];
 $the_active = $_POST['active'];
 $the_fingerprint_code = $_POST['finger'];
 
-if ($the_active == "Active") {
-	$the_active = 0;
+$cleanfName = cleaninput($the_fName);
+$cleanlName = cleaninput($the_lName);
+if (strlen($cleanfName) < 1){
+	echo '<script type="text/javascript">alert("ERROR: No First Name was entered."); </script>';
+	return false;
 }
-else  {
-	$the_active = 1;
+if (strlen($cleanlName) < 1){
+	echo '<script type="text/javascript">alert("ERROR: No Last Name was entered."); </script>';
+	return false;
 }
+
 if (!filter_var($the_email, FILTER_VALIDATE_EMAIL)) {
   echo '<script type="text/javascript">alert("ERROR: Invalid email format"); </script>';
   return false;
@@ -103,11 +108,13 @@ if (checkIfEmailExists($cleanEmail) == TRUE) {
 	echo '<script type="text/javascript">alert("ERROR: Email Already Exists"); </script>';
 	return false;
 }
-else {
-	
+
+$cleanUserID = filter_var($the_UserID, FILTER_VALIDATE_INT, array("options" => array("min_range"=>0, "max_range"=>999999999)));
+if (!$cleanUserID){
+	echo '<script type="text/javascript">alert("ERROR: No User ID was entered."); </script>';
+	return false;
 }
-$cleanUserID = cleaninput($the_UserID);
-if (checkIfUserIDExists($cleanUserID) == TRUE) {
+elseif (checkIfUserIDExists($cleanUserID) == TRUE) {
 	echo '<script type="text/javascript">alert("ERROR: User ID already Exists"); </script>';
 	return false;
 }
@@ -116,6 +123,12 @@ if ($the_password != $confirm_password) {
 	echo '<script type="text/javascript">alert("ERROR: Passwords Dont Match"); </script>';
 	return false;
 }
+$cleanPassword = cleaninput($the_password);
+if (strlen($cleanPassword) < 6){
+	echo '<script type="text/javascript">alert("ERROR: Password length is too short."); </script>';
+	return false;
+}
+
 $file = "fingerlog" . $the_fingerprint_code . ".txt";
 	if(file_exists($file)) {
 		$fingerprint_value = file_get_contents($file);
@@ -126,10 +139,13 @@ $file = "fingerlog" . $the_fingerprint_code . ".txt";
 	return false;
 	}
 
-$cleanPassword = cleaninput($the_password);
-$cleanconfirmPassword = cleaninput($confirm_password);
-$cleanfName = cleaninput($the_fName);
-$cleanlName = cleaninput($the_lName);
+if ($the_active == "Active") {
+	$the_active = 0;
+}
+else  {
+	$the_active = 1;
+}
+
 addNewUser($cleanUserID, $cleanfName, $cleanlName, $cleanEmail, $the_UserRole, $cleanPassword, $fingerprint_value, $the_active);
 }
 
