@@ -444,6 +444,25 @@ if (mysqli_query($conn, $sql)) {
 	return false;
 }
 }
+
+function addNewLocation($Loc_ID, $Room, $Building, $Lock) {
+include 'DatabaseInfo.php';
+// Create connection
+$conn = mysqli_connect($DB_servername, $DB_username, $DB_password, $DB_name);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error() . "<br>");
+}
+$sql = "INSERT INTO `Location` (`Location_ID`, `Room_No`, `Building_Name`, `Locked`) VALUES ('".$Loc_ID."', '".$Room."', '".$Building."', '".$Lock."');";
+if (mysqli_query($conn, $sql)) {
+	mysqli_close($conn);
+	return true;
+} else {
+	mysqli_close($conn);
+	return false;
+}
+}
+
 //--------------------------------------------------------
 //CHECK FUNCTIONS
 //--------------------------------------------------------
